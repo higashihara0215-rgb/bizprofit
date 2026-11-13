@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BizProfit Cloud | Next-Gen B2B Financial Suite</title>
+<style>
+  :root {
+    --bg:#f8fafc; --card:rgba(255,255,255,0.92); --elev:#f1f5f9; --line:#e2e8f0;
+    --navy:#090d16; --primary:#4f46e5; --accent:#06b6d4; --grad:linear-gradient(135deg,#4f46e5 0%,#0284c7 100%);
+    --em:#059669; --red:#dc2626; --txt:#0f172a; --sub:#64748b;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;
+    background-color:var(--bg);
+    background-image:radial-gradient(#cbd5e1 0.8px, transparent 0.8px);
+    background-size:18px 18px;
+    color:var(--txt); padding-bottom:94px; line-height:1.5; top:0 !important;
+  }
+  .goog-te-banner-frame { display:none !important; }
+  header {
+    background:rgba(255,255,255,0.85); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line); padding:12px 16px;
+    display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:50;
+  }
+  .brand { display:flex; align-items:center; gap:9px; font-weight:900; font-size:16px; letter-spacing:-0.3px; color:var(--navy); }
+  .logo {
+    width:28px; height:28px; border-radius:8px; background:var(--grad); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:900; font-size:14px;
+    box-shadow:0 4px 10px rgba(79,70,229,0.3);
+  }
+  .h-tools { display:flex; align-items:center; gap:6px; }
+  .curr-btn { background:#fff; color:var(--navy); border:1px solid #cbd5e1; padding:5px 10px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer; }
+  .badge { font-size:10px; font-weight:800; color:var(--primary); background:#eef2ff; border:1px solid #c7d2fe; padding:4px 9px; border-radius:99px; }
+  .badge.vip { background:var(--grad); color:#fff; border:none; }
+  .lang-bar { background:rgba(255,255,255,0.9); border-bottom:1px solid var(--line); padding:6px 16px; display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--sub); }
+  .wrap { max-width:640px; margin:0 auto; padding:14px; }
+  .pg { display:none; }
+  .pg.on { display:block; }
+  .card {
+    background:var(--card); backdrop-filter:blur(10px); border:1px solid rgba(226,232,240,0.9);
+    border-radius:16px; padding:16px; margin-bottom:14px; box-shadow:0 4px 20px rgba(15,23,42,0.04);
+  }
+  .ctitle { font-size:13px; font-weight:800; color:var(--navy); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
+  .hero {
+    background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%); color:#fff;
+    border-radius:18px; padding:18px; margin-bottom:14px; box-shadow:0 10px 25px rgba(15,23,42,0.18);
+    position:relative; overflow:hidden;
+  }
+  .hero::after {
+    content:""; position:absolute; top:-40px; right:-40px; width:130px; height:130px;
+    background:radial-gradient(circle,rgba(6,182,212,0.35) 0%,transparent 70%); border-radius:50%;
+  }
+  .hval { font-size:30px; font-weight:900; color:#38bdf8; margin:4px 0; letter-spacing:-0.5px; }
+  .hval.neg { color:#f87171; }
+  .track { width:100%; height:7px; background:rgba(255,255,255,0.15); border-radius:99px; overflow:hidden; margin-top:10px; }
+  .track.light { background:#e2e8f0; }
+  .fill { height:100%; background:linear-gradient(90deg,#38bdf8,#818cf8); }
+  .g2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:14px; padding:12px; box-shadow:0 2px 6px rgba(15,23,42,0.02); }
+  .stat span { display:block; font-size:11px; color:var(--sub); font-weight:600; }
+  .stat b { display:block; font-size:15px; color:var(--navy); margin-top:3px; font-weight:800; }
+  .cg { margin-bottom:14px; }
+  .ch { display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px; color:var(--sub); font-weight:600; }
+  .ch b { color:var(--primary); font-weight:800; }
+  input[type="range"] { width:100%; accent-color:var(--primary); }
+  input[type="text"], input[type="number"] { width:100%; background:#fff; border:1px solid #cbd5e1; color:var(--navy); padding:11px; border-radius:10px; font-size:14px; }
+  .btn { width:100%; padding:13px; border:none; border-radius:12px; font-size:14px; font-weight:800; cursor:pointer; transition:transform 0.1s; }
+  .btn:active { transform:scale(0.99); }
+  .bgrad { background:var(--grad); color:#fff; box-shadow:0 4px 14px rgba(79,70,229,0.28); }
+  .bsub { background:#fff; color:var(--navy); border:1px solid #cbd5e1; margin-top:8px; }
+  .paper { background:#fff; color:#0f172a; border:1px solid #cbd5e1; border-radius:14px; padding:18px; margin-top:14px; display:none; box-shadow:0 8px 24px rgba(15,23,42,0.08); }
+  .phead { display:flex; justify-content:space-between; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:12px; }
+  .ptotal { background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:8px; margin:10px 0; display:flex; justify-content:space-between; font-weight:bold; }
+  table { width:100%; border-collapse:collapse; font-size:12px; margin-top:8px; }
+  th { background:#f1f5f9; color:#0f172a; padding:7px; text-align:left; }
+  td { border-bottom:1px solid #e2e8f0; padding:8px 7px; }
+  .plan-box { background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px; }
+  .plan-box.featured { border:2px solid var(--primary); background:linear-gradient(180deg,#f5f7ff 0%,#ffffff 100%); box-shadow:0 8px 20px rgba(79,70,229,0.08); }
+  .plan-price { font-size:24px; font-weight:900; color:var(--navy); margin:4px 0 8px; }
+  .plan-list { list-style:none; font-size:12px; color:var(--sub); margin-bottom:14px; }
+  .plan-list li { margin-bottom:5px; }
+  .log { background:var(--elev); border:1px solid var(--line); border-radius:10px; padding:10px; margin-bottom:8px; font-size:12px; }
+  nav {
+    position:fixed; bottom:0; left:0; right:0; background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-top:1px solid var(--line); display:flex; padding:8px 2px 18px; z-index:100;
+  }
+  .nb { flex:1; background:none; border:none; color:var(--sub); display:flex; flex-direction:column; align-items:center; gap:2px; font-size:10px; font-weight:700; }
+  .nb.on { color:var(--primary); }
+nav { position:fixed !important; top:53px !important; bottom:auto !important; border-top:none !important; border-bottom:1px solid var(--line) !important; padding:8px 4px !important; z-index:45 !important; }
+body { padding-top:115px !important;padding-bottom:80px !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><div class="logo">B</div><span>BizProfit Cloud</span></div>
+  <div class="h-tools">
+    <button type="button" id="btnCurr" class="curr-btn">¥ JPY</button>
+    <span id="topBadge" class="badge">STARTER</span>
+  </div>
+</header>
+
+<div class="lang-bar">
+  <span>🌐 Global Translate (100+ Languages)</span>
+  <div id="google_translate_element"></div>
+</div>
+
+<div class="wrap">
+  <div id="t1" class="pg on">
+    <div class="hero">
+      <div style="font-size:11px;color:#94a3b8;font-weight:700;letter-spacing:0.5px;">PROJECTED MONTHLY NET PROFIT</div>
+      <div class="hval" id="kNet">¥640,000</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#cbd5e1;">
+        <span id="kMar">営業利益率: 64.0%</span>
+        <span id="kRoi">広告ROAS: 500%</span>
+      </div>
+      <div class="track"><div class="fill" id="kBar" style="width:64%;"></div></div>
+    </div>
+
+    <div class="g2">
+      <div class="stat"><span>必要成約件数</span><b id="kDeal">10件 / 月</b></div>
+      <div class="stat"><span>必要商談・見込客数</span><b id="kLead">50件 / 月</b></div>
+      <div class="stat"><span>顧客獲得単価(CPA)</span><b id="kCpa">¥20,000</b></div>
+      <div class="stat"><span>想定月間広告予算</span><b id="kAd">¥200,000</b></div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle"><span>KPIシミュレーション設定</span></div>
+      <div class="cg"><div class="ch"><span>目標月間売上</span><b id="lRev">¥1,000,000</b></div><input type="range" id="iRev" min="100000" max="10000000" step="100000" value="1000000"></div>
+      <div class="cg"><div class="ch"><span>商品・契約単価</span><b id="lPri">¥100,000</b></div><input type="range" id="iPri" min="5000" max="1000000" step="5000" value="100000"></div>
+      <div class="cg"><div class="ch"><span>商談・LP成約率</span><b id="lCvr">20%</b></div><input type="range" id="iCvr" min="1" max="80" step="1" value="20"></div>
+      <div class="cg"><div class="ch"><span>見込客1件コスト(CPL)</span><b id="lCpl">¥4,000</b></div><input type="range" id="iCpl" min="0" max="30000" step="500" value="4000"></div>
+      <div class="cg"><div class="ch"><span>原価・外注費率</span><b id="lCos">16%</b></div><input type="range" id="iCos" min="0" max="80" step="2" value="16"></div>
+    </div>
+    <button type="button" id="btnSaveKpi" class="btn bgrad">このKPI計画を経営台帳に保存</button>
+  </div>
+  <div id="t2" class="pg">
+    <div class="card">
+      <div class="ctitle"><span>赤字ゼロ適正見積もり＆帳票発行</span></div>
+      <div class="cg"><div class="ch"><span>取引先企業名</span></div><input type="text" id="eCli" value="株式会社サンプル商事"></div>
+      <div class="cg"><div class="ch"><span>案件・サービス名</span></div><input type="text" id="ePrj" value="AI業務自動化・Webシステム構築支援"></div>
+      <div class="g2">
+        <div><div class="ch"><span>稼働時間(h)</span></div><input type="number" id="eHr" value="25"></div>
+        <div><div class="ch"><span>希望時給(円)</span></div><input type="number" id="eRt" value="5000"></div>
+      </div>
+      <div class="g2">
+        <div><div class="ch"><span>外注・原価(円)</span></div><input type="number" id="eCs" value="30000"></div>
+        <div><div class="ch"><span>確保粗利率(%)</span></div><input type="number" id="eMg" value="35"></div>
+      </div>
+      <div class="g2">
+        <div class="stat"><span>赤字ゼロ最低ライン</span><b id="eBrk">¥155,000</b></div>
+        <div class="stat"><span>推奨御見積額(税込)</span><b id="eRec" style="color:var(--em);">¥262,307</b></div>
+      </div>
+      <button type="button" id="btnMkInv" class="btn bgrad">正式「御見積書」を発行する</button>
+    </div>
+
+    <div id="invBox" class="paper">
+      <div class="phead">
+        <div><strong style="font-size:17px;">御 見 積 書</strong><div style="font-size:11px;color:#64748b;" id="pDate"></div></div>
+        <div style="text-align:right;font-size:11px;"><b>BizProfit Cloud Enterprise</b><br>有効期限: 14日間</div>
+      </div>
+      <div style="font-size:14px;font-weight:bold;border-bottom:1px solid #94a3b8;padding-bottom:4px;margin-bottom:8px;" id="pCli"></div>
+      <div class="ptotal"><span>御見積金額（税込）</span><span style="font-size:18px;" id="pTot"></span></div>
+      <table>
+        <thead><tr><th>項目内容</th><th style="text-align:right;">金額(税抜)</th></tr></thead>
+        <tbody>
+          <tr><td id="pPrj"></td><td style="text-align:right;" id="pSub"></td></tr>
+          <tr><td>消費税等（10%）</td><td style="text-align:right;" id="pTax"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="t3" class="pg">
+    <div class="card">
+      <div class="ctitle"><span>単発売り vs サブスク課金（1年比較）</span></div>
+      <div class="cg"><div class="ch"><span>毎月獲得顧客数</span><b id="lSu">10 / mo</b></div><input type="range" id="iSu" min="1" max="100" value="10"></div>
+      <div class="cg"><div class="ch"><span>月額単価</span><b id="lSp">¥4,980</b></div><input type="range" id="iSp" min="980" max="50000" step="500" value="4980"></div>
+      <div class="cg"><div class="ch"><span>月間継続率</span><b id="lSr">90%</b></div><input type="range" id="iSr" min="50" max="99" value="90"></div>
+      <div class="cg"><div class="ch"><span>単発販売（1年計）</span><b id="vOne">¥1,792,800</b></div><div class="track light"><div class="fill" id="bOne" style="width:50%;background:#94a3b8;"></div></div></div>
+      <div class="cg"><div class="ch"><span style="color:var(--primary);font-weight:bold;">サブスク継続（1年計）</span><b id="vSub" style="color:var(--em);">¥2,856,000</b></div><div class="track light"><div class="fill" id="bSub" style="width:85%;"></div></div></div>
+      <div style="font-size:12px;color:var(--navy);background:#eef2ff;padding:10px;border-radius:8px;font-weight:600;" id="ltvMsg"></div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle"><span>割引セール損益分岐点</span></div>
+      <div class="cg"><div class="ch"><span>元の粗利率</span><b id="lOm">50%</b></div><input type="range" id="iOm" min="10" max="90" step="5" value="50"></div>
+      <div class="cg"><div class="ch"><span>割引率</span><b id="lDr">20% OFF</b></div><input type="range" id="iDr" min="5" max="50" step="5" value="20"></div>
+      <div class="stat"><span>同利益を残すための必要販売増</span><b id="dRes" style="color:var(--primary);">販売数を +67% 増やす必要あり</b></div>
+    </div>
+  </div>
+
+  <div id="t4" class="pg">
+    <div class="card">
+      <div class="ctitle"><span>保存済み経営台帳</span><button type="button" id="btnClrLog" style="background:none;border:none;color:var(--red);font-size:11px;font-weight:bold;">全削除</button></div>
+      <div id="logBox" style="font-size:12px;color:var(--sub);">保存データはまだありません。</div>
+      <button type="button" id="btnCpRep" class="btn bsub">最新レポートをコピー</button>
+    </div>
+  </div>
+
+  <div id="t5" class="pg">
+    <div class="card">
+      <div class="ctitle"><span>法人・プロフェッショナル料金プラン</span></div>
+      <p style="font-size:12px;color:var(--sub);margin-bottom:14px;">チームの規模や業務に合わせて最適なプランをお選びいただけます。</p>
+
+      <div class="plan-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:12px;font-weight:bold;color:var(--sub);">STARTER（無料プラン）</span>
+          <span id="freeStatus" style="font-size:10px;background:#e2e8f0;color:#475569;padding:2px 8px;border-radius:99px;font-weight:700;">選択中</span>
+        </div>
+        <div class="plan-price">¥0 <span style="font-size:12px;font-weight:normal;color:var(--sub);">/ 月（$0）</span></div>
+        <ul class="plan-list">
+          <li>✓ KPI逆算シミュレーター（基本機能）</li>
+          <li>✓ 見積書プレビュー発行（月3件まで）</li>
+        </ul>
+        <button type="button" id="btnSelectFree" class="btn bsub" style="margin-top:0;">無料プランを選択してツールを使う</button>
+      </div>
+
+      <div class="plan-box featured">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:12px;font-weight:bold;color:var(--primary);">BUSINESS PRO（法人・個人事業主向け）</span>
+          <span style="font-size:10px;background:var(--grad);color:#fff;padding:2px 8px;border-radius:99px;font-weight:800;">人気プラン</span>
+        </div>
+        <div class="plan-price">¥2,980 <span style="font-size:12px;font-weight:normal;color:var(--sub);">/ 月（$19 / mo）</span></div>
+        <ul class="plan-list">
+          <li>✓ 正式「御見積書」無制限発行＆PDF出力</li>
+          <li>✓ 100言語翻訳＆グローバル通貨（JPY/USD/EUR）対応</li>
+          <li>✓ 経営台帳データ保存＆優先サポート</li>
+        </ul>
+        <button type="button" id="btnBuyPro" class="btn bgrad">Proプランにアップグレード（決済へ進む）</button>
+      </div>
+
+      <div class="card" style="background:var(--elev);margin-bottom:0;">
+        <div class="ctitle"><span>ライセンスキー認証（ご契約済みの方）</span></div>
+        <input type="text" id="inLicense" placeholder="ライセンスキーを入力（例: PRO-2026-VIP）" style="margin-bottom:8px;">
+        <button type="button" id="btnUnlock" class="btn bsub" style="margin-top:0;">ライセンスキーを適用してPro版を有効化</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <button type="button" class="nb on" data-tab="t1"><span>📊</span><span>KPI逆算</span></button>
+  <button type="button" class="nb" data-tab="t2"><span>🧾</span><span>見積発行</span></button>
+  <button type="button" class="nb" data-tab="t3"><span>📈</span><span>LTV/割引</span></button>
+  <button type="button" class="nb" data-tab="t4"><span>🗂️</span><span>経営台帳</span></button>
+  <button type="button" class="nb" data-tab="t5"><span>💳</span><span>料金プラン</span></button>
+</nav>
+<script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({ pageLanguage: 'ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+}
+</script>
+<script src="https://google.com"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  function g(id) { return document.getElementById(id); }
+
+  var currs = [
+    { code: 'JPY', sym: '¥', rate: 1 },
+    { code: 'USD', sym: '$', rate: 0.0067 },
+    { code: 'EUR', sym: '€', rate: 0.0062 }
+  ];
+  var cIdx = 0;
+
+  function y(n) {
+    var c = currs[cIdx];
+    var val = n * c.rate;
+    return c.code === 'JPY' ? c.sym + Math.round(val).toLocaleString() : c.sym + val.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  g('btnCurr').addEventListener('click', function() {
+    cIdx = (cIdx + 1) % currs.length;
+    this.textContent = currs[cIdx].sym + ' ' + currs[cIdx].code;
+    cKpi(); cEst(); cLtv();
+  });
+
+  var navs = document.querySelectorAll('.nb');
+  function switchTab(target) {
+    var pgs = document.querySelectorAll('.pg');
+    for (var j = 0; j < pgs.length; j++) pgs[j].classList.remove('on');
+    for (var k = 0; k < navs.length; k++) {
+      navs[k].classList.remove('on');
+      if (navs[k].getAttribute('data-tab') === target) navs[k].classList.add('on');
+    }
+    g(target).classList.add('on');
+    window.scrollTo(0, 0);
+  }
+  for (var i = 0; i < navs.length; i++) {
+    navs[i].addEventListener('click', function() { switchTab(this.getAttribute('data-tab')); });
+  }
+
+  function cKpi() {
+    var r = +g('iRev').value, p = +g('iPri').value, cv = +g('iCvr').value / 100, cp = +g('iCpl').value, cr = +g('iCos').value / 100;
+    g('lRev').textContent = y(r); g('lPri').textContent = y(p); g('lCvr').textContent = Math.round(cv*100)+'%'; g('lCpl').textContent = y(cp); g('lCos').textContent = Math.round(cr*100)+'%';
+    var d = Math.ceil(r / p), ld = Math.ceil(d / cv), ad = ld * cp, cpa = d > 0 ? ad / d : 0, net = r - ad - (r * cr), mg = r > 0 ? (net / r) * 100 : 0;
+    var el = g('kNet'); el.textContent = (net < 0 ? '-' : '') + y(Math.abs(net)); el.className = net < 0 ? 'hval neg' : 'hval';
+    g('kMar').textContent = '営業利益率: ' + mg.toFixed(1) + '%';
+    g('kRoi').textContent = ad > 0 ? '広告ROAS: ' + Math.round((r/ad)*100) + '%' : '広告費ゼロ運営';
+    g('kBar').style.width = Math.max(0, Math.min(100, mg)) + '%';
+    g('kDeal').textContent = d.toLocaleString() + '件 / 月';
+    g('kLead').textContent = ld.toLocaleString() + '件 / 月';
+    g('kCpa').textContent = y(cpa);
+    g('kAd').textContent = y(ad);
+  }
+  ['iRev','iPri','iCvr','iCpl','iCos'].forEach(function(id) { g(id).addEventListener('input', cKpi); });
+
+  function cEst() {
+    var h = +g('eHr').value || 0, rt = +g('eRt').value || 0, cs = +g('eCs').value || 0, mg = (+g('eMg').value || 0) / 100;
+    var brk = (h * rt) + cs, sub = mg < 0.95 ? brk / (1 - mg) : brk * 2, tot = sub * 1.1;
+    g('eBrk').textContent = y(brk); g('eRec').textContent = y(tot);
+    return { sub: sub, tax: sub * 0.1, tot: tot };
+  }
+  ['eHr','eRt','eCs','eMg'].forEach(function(id) { g(id).addEventListener('input', cEst); });
+
+  g('btnMkInv').addEventListener('click', function() {
+    var c = cEst(), cli = g('eCli').value || '御中', prj = g('ePrj').value || '業務委託費', d = new Date();
+    g('pDate').textContent = '発行日: ' + d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
+    g('pCli').textContent = cli + ' 御中'; g('pPrj').textContent = prj;
+    g('pSub').textContent = y(c.sub); g('pTax').textContent = y(c.tax); g('pTot').textContent = y(c.tot) + '-';
+    g('invBox').style.display = 'block';
+    sLog('御見積書: ' + cli);
+  });
+
+  function cLtv() {
+    var u = +g('iSu').value, p = +g('iSp').value, rt = +g('iSr').value / 100;
+    g('lSu').textContent = u + ' / mo'; g('lSp').textContent = y(p); g('lSr').textContent = Math.round(rt*100)+'%';
+    var one = (u * 12) * (p * 3), act = 0, sub = 0;
+    for (var m = 1; m <= 12; m++) { act = act * rt + u; sub += act * p; }
+    var mx = Math.max(one, sub, 1);
+    g('vOne').textContent = y(one); g('vSub').textContent = y(sub);
+    g('bOne').style.width = Math.round((one/mx)*100)+'%'; g('bSub').style.width = Math.round((sub/mx)*100)+'%';
+    var df = sub - one;
+    g('ltvMsg').textContent = df >= 0 ? 'サブスク継続で1年累積売上が +' + y(df) + ' 増加します。' : '継続率や単価を上げると単発売りを上回ります。';
+  }
+  ['iSu','iSp','iSr'].forEach(function(id) { g(id).addEventListener('input', cLtv); });
+
+  function cDsc() {
+    var m = +g('iOm').value / 100, d = +g('iDr').value / 100;
+    g('lOm').textContent = Math.round(m*100)+'%'; g('lDr').textContent = Math.round(d*100)+'% OFF';
+    g('dRes').textContent = m <= d ? '赤字転落（値引きしすぎです）' : '販売数を +' + Math.round((d/(m-d))*100) + '% 増やす必要あり';
+  }
+  ['iOm','iDr'].forEach(function(id) { g(id).addEventListener('input', cDsc); });
+
+  function sLog(lbl) {
+    try {
+      var l = JSON.parse(localStorage.getItem('bp_log') || '[]');
+      l.unshift({ t: lbl, d: '純利益 ' + g('kNet').textContent + ' / 見積 ' + g('eRec').textContent });
+      localStorage.setItem('bp_log', JSON.stringify(l.slice(0, 8)));
+      rLog();
+      if (lbl.indexOf('KPI') !== -1) alert('経営台帳に保存しました！');
+    } catch (e) {}
+  }
+  function rLog() {
+    try {
+      var l = JSON.parse(localStorage.getItem('bp_log') || '[]'), b = g('logBox');
+      b.innerHTML = l.length ? l.map(function(x) { return '<div class="log"><b style="color:var(--navy);">' + x.t + '</b><div style="color:var(--sub);margin-top:2px;">' + x.d + '</div></div>'; }).join('') : '保存データはまだありません。';
+    } catch (e) {}
+  }
+  g('btnSaveKpi').addEventListener('click', function() { sLog('KPI事業計画'); });
+  g('btnClrLog').addEventListener('click', function() { localStorage.removeItem('bp_log'); rLog(); });
+  g('btnCpRep').addEventListener('click', function() {
+    var t = '【BizProfit Cloud Report】\nNet Profit: ' + g('kNet').textContent + '\nEstimate: ' + g('eRec').textContent + '\nSubscription 1Yr: ' + g('vSub').textContent;
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function() { alert('レポートをコピーしました！'); });
+  });
+
+  g('btnSelectFree').addEventListener('click', function() {
+    localStorage.removeItem('bp_vip');
+    g('topBadge').textContent = 'STARTER';
+    g('topBadge').classList.remove('vip');
+    g('freeStatus').textContent = '選択中';
+    alert('STARTER（無料プラン）を選択しました。すぐにすべての基本機能をご利用いただけます。');
+    switchTab('t1');
+  });
+  var URL_JP = "https://note.com/my_yuto0215/n/nb36b17c4909e ";
+  var URL_EN = "https://note.com/my_yuto0215/n/nfb57eebf986d?sub_rt=share_pw";
+
+  g('btnBuyPro').addEventListener('click', function() {
+    var targetUrl = (currs[cIdx].code === 'JPY') ? URL_JP : URL_EN;
+    if (targetUrl && targetUrl.indexOf('http') === 0) {
+      window.open(targetUrl, '_blank');
+    } else {
+      window.open(URL_JP, '_blank');
+    }
+  });
+
+
+  function applyVip() {
+    g('topBadge').textContent = 'PRO';
+    g('topBadge').classList.add('vip');
+    g('freeStatus').textContent = '無料プラン';
+  }
+  if (localStorage.getItem('bp_vip') === '1') applyVip();
+
+  g('btnUnlock').addEventListener('click', function() {
+    var code = g('inLicense').value.trim().toUpperCase();
+    if (code === 'PRO-2026-VIP' || code.indexOf('VIP') !== -1) {
+      localStorage.setItem('bp_vip', '1');
+      applyVip();
+      alert('ライセンス認証が完了し、BUSINESS PRO プランが有効化されました。');
+    } else {
+      alert('無効なライセンスキーです。（デモ用キー: PRO-2026-VIP）');
+    }
+  });
+
+  cKpi(); cEst(); cLtv(); cDsc(); rLog();
+});
+</script>
+</body>
+</html>
