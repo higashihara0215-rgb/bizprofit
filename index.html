@@ -1,415 +1,2213 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BizProfit Cloud | Next-Gen B2B Financial Suite</title>
-<style>
-  :root {
-    --bg:#f8fafc; --card:rgba(255,255,255,0.92); --elev:#f1f5f9; --line:#e2e8f0;
-    --navy:#090d16; --primary:#4f46e5; --accent:#06b6d4; --grad:linear-gradient(135deg,#4f46e5 0%,#0284c7 100%);
-    --em:#059669; --red:#dc2626; --txt:#0f172a; --sub:#64748b;
-  }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body {
-    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;
-    background-color:var(--bg);
-    background-image:radial-gradient(#cbd5e1 0.8px, transparent 0.8px);
-    background-size:18px 18px;
-    color:var(--txt); padding-bottom:94px; line-height:1.5; top:0 !important;
-  }
-  .goog-te-banner-frame { display:none !important; }
-  header {
-    background:rgba(255,255,255,0.85); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-    border-bottom:1px solid var(--line); padding:12px 16px;
-    display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:50;
-  }
-  .brand { display:flex; align-items:center; gap:9px; font-weight:900; font-size:16px; letter-spacing:-0.3px; color:var(--navy); }
-  .logo {
-    width:28px; height:28px; border-radius:8px; background:var(--grad); color:#fff;
-    display:flex; align-items:center; justify-content:center; font-weight:900; font-size:14px;
-    box-shadow:0 4px 10px rgba(79,70,229,0.3);
-  }
-  .h-tools { display:flex; align-items:center; gap:6px; }
-  .curr-btn { background:#fff; color:var(--navy); border:1px solid #cbd5e1; padding:5px 10px; border-radius:8px; font-size:11px; font-weight:800; cursor:pointer; }
-  .badge { font-size:10px; font-weight:800; color:var(--primary); background:#eef2ff; border:1px solid #c7d2fe; padding:4px 9px; border-radius:99px; }
-  .badge.vip { background:var(--grad); color:#fff; border:none; }
-  .lang-bar { background:rgba(255,255,255,0.9); border-bottom:1px solid var(--line); padding:6px 16px; display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--sub); }
-  .wrap { max-width:640px; margin:0 auto; padding:14px; }
-  .pg { display:none; }
-  .pg.on { display:block; }
-  .card {
-    background:var(--card); backdrop-filter:blur(10px); border:1px solid rgba(226,232,240,0.9);
-    border-radius:16px; padding:16px; margin-bottom:14px; box-shadow:0 4px 20px rgba(15,23,42,0.04);
-  }
-  .ctitle { font-size:13px; font-weight:800; color:var(--navy); margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
-  .hero {
-    background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%); color:#fff;
-    border-radius:18px; padding:18px; margin-bottom:14px; box-shadow:0 10px 25px rgba(15,23,42,0.18);
-    position:relative; overflow:hidden;
-  }
-  .hero::after {
-    content:""; position:absolute; top:-40px; right:-40px; width:130px; height:130px;
-    background:radial-gradient(circle,rgba(6,182,212,0.35) 0%,transparent 70%); border-radius:50%;
-  }
-  .hval { font-size:30px; font-weight:900; color:#38bdf8; margin:4px 0; letter-spacing:-0.5px; }
-  .hval.neg { color:#f87171; }
-  .track { width:100%; height:7px; background:rgba(255,255,255,0.15); border-radius:99px; overflow:hidden; margin-top:10px; }
-  .track.light { background:#e2e8f0; }
-  .fill { height:100%; background:linear-gradient(90deg,#38bdf8,#818cf8); }
-  .g2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
-  .stat { background:#fff; border:1px solid var(--line); border-radius:14px; padding:12px; box-shadow:0 2px 6px rgba(15,23,42,0.02); }
-  .stat span { display:block; font-size:11px; color:var(--sub); font-weight:600; }
-  .stat b { display:block; font-size:15px; color:var(--navy); margin-top:3px; font-weight:800; }
-  .cg { margin-bottom:14px; }
-  .ch { display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px; color:var(--sub); font-weight:600; }
-  .ch b { color:var(--primary); font-weight:800; }
-  input[type="range"] { width:100%; accent-color:var(--primary); }
-  input[type="text"], input[type="number"] { width:100%; background:#fff; border:1px solid #cbd5e1; color:var(--navy); padding:11px; border-radius:10px; font-size:14px; }
-  .btn { width:100%; padding:13px; border:none; border-radius:12px; font-size:14px; font-weight:800; cursor:pointer; transition:transform 0.1s; }
-  .btn:active { transform:scale(0.99); }
-  .bgrad { background:var(--grad); color:#fff; box-shadow:0 4px 14px rgba(79,70,229,0.28); }
-  .bsub { background:#fff; color:var(--navy); border:1px solid #cbd5e1; margin-top:8px; }
-  .paper { background:#fff; color:#0f172a; border:1px solid #cbd5e1; border-radius:14px; padding:18px; margin-top:14px; display:none; box-shadow:0 8px 24px rgba(15,23,42,0.08); }
-  .phead { display:flex; justify-content:space-between; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:12px; }
-  .ptotal { background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:8px; margin:10px 0; display:flex; justify-content:space-between; font-weight:bold; }
-  table { width:100%; border-collapse:collapse; font-size:12px; margin-top:8px; }
-  th { background:#f1f5f9; color:#0f172a; padding:7px; text-align:left; }
-  td { border-bottom:1px solid #e2e8f0; padding:8px 7px; }
-  .plan-box { background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px; }
-  .plan-box.featured { border:2px solid var(--primary); background:linear-gradient(180deg,#f5f7ff 0%,#ffffff 100%); box-shadow:0 8px 20px rgba(79,70,229,0.08); }
-  .plan-price { font-size:24px; font-weight:900; color:var(--navy); margin:4px 0 8px; }
-  .plan-list { list-style:none; font-size:12px; color:var(--sub); margin-bottom:14px; }
-  .plan-list li { margin-bottom:5px; }
-  .log { background:var(--elev); border:1px solid var(--line); border-radius:10px; padding:10px; margin-bottom:8px; font-size:12px; }
-  nav {
-    position:fixed; bottom:0; left:0; right:0; background:rgba(255,255,255,0.92);
-    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-    border-top:1px solid var(--line); display:flex; padding:8px 2px 18px; z-index:100;
-  }
-  .nb { flex:1; background:none; border:none; color:var(--sub); display:flex; flex-direction:column; align-items:center; gap:2px; font-size:10px; font-weight:700; }
-  .nb.on { color:var(--primary); }
-nav { position:fixed !important; top:53px !important; bottom:auto !important; border-top:none !important; border-bottom:1px solid var(--line) !important; padding:8px 4px !important; z-index:45 !important; }
-body { padding-top:115px !important;padding-bottom:80px !important; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BizProfit Enterprise — 法人向け収益シミュレーション＆適正見積プラットフォーム</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', 'sans-serif'],
+            mono: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'sans-serif']
+          },
+          colors: {
+            obsidian: {
+              950: '#070B14',
+              900: '#0B1120',
+              850: '#111827',
+              800: '#162033',
+              700: '#1E293B'
+            },
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#4F46E5',
+              600: '#4338CA',
+              700: '#3730A3',
+              900: '#1E1B4B'
+            }
+          },
+          boxShadow: {
+            'card': '0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px -2px rgba(15, 23, 42, 0.04)',
+            'elevated': '0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 10px -4px rgba(15, 23, 42, 0.04)',
+            'dark-card': '0 20px 40px -15px rgba(7, 11, 20, 0.45)'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      -webkit-font-smoothing: antialiased;
+    }
+    .tabular-nums, .font-mono { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1, 'zero' 0; }
+
+    /* Custom refined range slider */
+    input[type="range"].ent-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 9999px;
+      background: #E2E8F0;
+      outline: none;
+      transition: background 0.15s ease;
+    }
+    input[type="range"].ent-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #0F172A;
+      border: 2.5px solid #FFFFFF;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(15, 23, 42, 0.12);
+      cursor: pointer;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    input[type="range"].ent-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.12);
+      background: #4F46E5;
+    }
+    input[type="range"].ent-slider::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #0F172A;
+      border: 2.5px solid #FFFFFF;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.35);
+      cursor: pointer;
+    }
+
+    /* Subtle scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+    /* View transitions */
+    .view-panel { display: none; animation: fadeSlide 0.2s ease-out; }
+    .view-panel.active { display: block; }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Print styling for formal quotation PDF */
+    @media print {
+      body { background: #FFFFFF !important; }
+      #app-sidebar, #app-header, #mobile-drawer, #toast-container,
+      .no-print, .view-panel:not(#view-quote) {
+        display: none !important;
+      }
+      #view-quote { display: block !important; padding: 0 !important; margin: 0 !important; }
+      #quote-inputs-col { display: none !important; }
+      #quote-preview-col { width: 100% !important; max-width: 100% !important; grid-column: span 12 / span 12 !important; }
+      #quote-document {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen flex bg-slate-50 text-slate-900 overflow-x-hidden">
 
-<header>
-  <div class="brand"><div class="logo">B</div><span>BizProfit Cloud</span></div>
-  <div class="h-tools">
-    <button type="button" id="btnCurr" class="curr-btn">¥ JPY</button>
-    <span id="topBadge" class="badge">STARTER</span>
-  </div>
-</header>
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="mobile-backdrop" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40 hidden lg:hidden"></div>
 
-<div class="lang-bar">
-  <span>🌐 Global Translate (100+ Languages)</span>
-  <div id="google_translate_element"></div>
-</div>
-
-<div class="wrap">
-  <div id="t1" class="pg on">
-    <div class="hero">
-      <div style="font-size:11px;color:#94a3b8;font-weight:700;letter-spacing:0.5px;">PROJECTED MONTHLY NET PROFIT</div>
-      <div class="hval" id="kNet">¥640,000</div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:#cbd5e1;">
-        <span id="kMar">営業利益率: 64.0%</span>
-        <span id="kRoi">広告ROAS: 500%</span>
-      </div>
-      <div class="track"><div class="fill" id="kBar" style="width:64%;"></div></div>
-    </div>
-
-    <div class="g2">
-      <div class="stat"><span>必要成約件数</span><b id="kDeal">10件 / 月</b></div>
-      <div class="stat"><span>必要商談・見込客数</span><b id="kLead">50件 / 月</b></div>
-      <div class="stat"><span>顧客獲得単価(CPA)</span><b id="kCpa">¥20,000</b></div>
-      <div class="stat"><span>想定月間広告予算</span><b id="kAd">¥200,000</b></div>
-    </div>
-
-    <div class="card">
-      <div class="ctitle"><span>KPIシミュレーション設定</span></div>
-      <div class="cg"><div class="ch"><span>目標月間売上</span><b id="lRev">¥1,000,000</b></div><input type="range" id="iRev" min="100000" max="10000000" step="100000" value="1000000"></div>
-      <div class="cg"><div class="ch"><span>商品・契約単価</span><b id="lPri">¥100,000</b></div><input type="range" id="iPri" min="5000" max="1000000" step="5000" value="100000"></div>
-      <div class="cg"><div class="ch"><span>商談・LP成約率</span><b id="lCvr">20%</b></div><input type="range" id="iCvr" min="1" max="80" step="1" value="20"></div>
-      <div class="cg"><div class="ch"><span>見込客1件コスト(CPL)</span><b id="lCpl">¥4,000</b></div><input type="range" id="iCpl" min="0" max="30000" step="500" value="4000"></div>
-      <div class="cg"><div class="ch"><span>原価・外注費率</span><b id="lCos">16%</b></div><input type="range" id="iCos" min="0" max="80" step="2" value="16"></div>
-    </div>
-    <button type="button" id="btnSaveKpi" class="btn bgrad">このKPI計画を経営台帳に保存</button>
-  </div>
-  <div id="t2" class="pg">
-    <div class="card">
-      <div class="ctitle"><span>赤字ゼロ適正見積もり＆帳票発行</span></div>
-      <div class="cg"><div class="ch"><span>取引先企業名</span></div><input type="text" id="eCli" value="株式会社サンプル商事"></div>
-      <div class="cg"><div class="ch"><span>案件・サービス名</span></div><input type="text" id="ePrj" value="AI業務自動化・Webシステム構築支援"></div>
-      <div class="g2">
-        <div><div class="ch"><span>稼働時間(h)</span></div><input type="number" id="eHr" value="25"></div>
-        <div><div class="ch"><span>希望時給(円)</span></div><input type="number" id="eRt" value="5000"></div>
-      </div>
-      <div class="g2">
-        <div><div class="ch"><span>外注・原価(円)</span></div><input type="number" id="eCs" value="30000"></div>
-        <div><div class="ch"><span>確保粗利率(%)</span></div><input type="number" id="eMg" value="35"></div>
-      </div>
-      <div class="g2">
-        <div class="stat"><span>赤字ゼロ最低ライン</span><b id="eBrk">¥155,000</b></div>
-        <div class="stat"><span>推奨御見積額(税込)</span><b id="eRec" style="color:var(--em);">¥262,307</b></div>
-      </div>
-      <button type="button" id="btnMkInv" class="btn bgrad">正式「御見積書」を発行する</button>
-    </div>
-
-    <div id="invBox" class="paper">
-      <div class="phead">
-        <div><strong style="font-size:17px;">御 見 積 書</strong><div style="font-size:11px;color:#64748b;" id="pDate"></div></div>
-        <div style="text-align:right;font-size:11px;"><b>BizProfit Cloud Enterprise</b><br>有効期限: 14日間</div>
-      </div>
-      <div style="font-size:14px;font-weight:bold;border-bottom:1px solid #94a3b8;padding-bottom:4px;margin-bottom:8px;" id="pCli"></div>
-      <div class="ptotal"><span>御見積金額（税込）</span><span style="font-size:18px;" id="pTot"></span></div>
-      <table>
-        <thead><tr><th>項目内容</th><th style="text-align:right;">金額(税抜)</th></tr></thead>
-        <tbody>
-          <tr><td id="pPrj"></td><td style="text-align:right;" id="pSub"></td></tr>
-          <tr><td>消費税等（10%）</td><td style="text-align:right;" id="pTax"></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div id="t3" class="pg">
-    <div class="card">
-      <div class="ctitle"><span>単発売り vs サブスク課金（1年比較）</span></div>
-      <div class="cg"><div class="ch"><span>毎月獲得顧客数</span><b id="lSu">10 / mo</b></div><input type="range" id="iSu" min="1" max="100" value="10"></div>
-      <div class="cg"><div class="ch"><span>月額単価</span><b id="lSp">¥4,980</b></div><input type="range" id="iSp" min="980" max="50000" step="500" value="4980"></div>
-      <div class="cg"><div class="ch"><span>月間継続率</span><b id="lSr">90%</b></div><input type="range" id="iSr" min="50" max="99" value="90"></div>
-      <div class="cg"><div class="ch"><span>単発販売（1年計）</span><b id="vOne">¥1,792,800</b></div><div class="track light"><div class="fill" id="bOne" style="width:50%;background:#94a3b8;"></div></div></div>
-      <div class="cg"><div class="ch"><span style="color:var(--primary);font-weight:bold;">サブスク継続（1年計）</span><b id="vSub" style="color:var(--em);">¥2,856,000</b></div><div class="track light"><div class="fill" id="bSub" style="width:85%;"></div></div></div>
-      <div style="font-size:12px;color:var(--navy);background:#eef2ff;padding:10px;border-radius:8px;font-weight:600;" id="ltvMsg"></div>
-    </div>
-
-    <div class="card">
-      <div class="ctitle"><span>割引セール損益分岐点</span></div>
-      <div class="cg"><div class="ch"><span>元の粗利率</span><b id="lOm">50%</b></div><input type="range" id="iOm" min="10" max="90" step="5" value="50"></div>
-      <div class="cg"><div class="ch"><span>割引率</span><b id="lDr">20% OFF</b></div><input type="range" id="iDr" min="5" max="50" step="5" value="20"></div>
-      <div class="stat"><span>同利益を残すための必要販売増</span><b id="dRes" style="color:var(--primary);">販売数を +67% 増やす必要あり</b></div>
-    </div>
-  </div>
-
-  <div id="t4" class="pg">
-    <div class="card">
-      <div class="ctitle"><span>保存済み経営台帳</span><button type="button" id="btnClrLog" style="background:none;border:none;color:var(--red);font-size:11px;font-weight:bold;">全削除</button></div>
-      <div id="logBox" style="font-size:12px;color:var(--sub);">保存データはまだありません。</div>
-      <button type="button" id="btnCpRep" class="btn bsub">最新レポートをコピー</button>
-    </div>
-  </div>
-
-  <div id="t5" class="pg">
-    <div class="card">
-      <div class="ctitle"><span>法人・プロフェッショナル料金プラン</span></div>
-      <p style="font-size:12px;color:var(--sub);margin-bottom:14px;">チームの規模や業務に合わせて最適なプランをお選びいただけます。</p>
-
-      <div class="plan-box">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span style="font-size:12px;font-weight:bold;color:var(--sub);">STARTER（無料プラン）</span>
-          <span id="freeStatus" style="font-size:10px;background:#e2e8f0;color:#475569;padding:2px 8px;border-radius:99px;font-weight:700;">選択中</span>
+  <!-- Left Enterprise Sidebar -->
+  <aside id="app-sidebar" class="fixed lg:sticky top-0 left-0 z-50 h-screen w-64 shrink-0 bg-obsidian-900 text-slate-300 flex flex-col border-r border-slate-800/80 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-out">
+    <!-- Brand Header -->
+    <div class="h-16 px-5 flex items-center justify-between border-b border-slate-800/80">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 via-indigo-600 to-slate-900 border border-indigo-400/30 flex items-center justify-center shadow-inner">
+          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 17l6-6 4 4 8-8"></path>
+            <path d="M17 7h4v4"></path>
+          </svg>
         </div>
-        <div class="plan-price">¥0 <span style="font-size:12px;font-weight:normal;color:var(--sub);">/ 月（$0）</span></div>
-        <ul class="plan-list">
-          <li>✓ KPI逆算シミュレーター（基本機能）</li>
-          <li>✓ 見積書プレビュー発行（月3件まで）</li>
-        </ul>
-        <button type="button" id="btnSelectFree" class="btn bsub" style="margin-top:0;">無料プランを選択してツールを使う</button>
-      </div>
-
-      <div class="plan-box featured">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span style="font-size:12px;font-weight:bold;color:var(--primary);">BUSINESS PRO（法人・個人事業主向け）</span>
-          <span style="font-size:10px;background:var(--grad);color:#fff;padding:2px 8px;border-radius:99px;font-weight:800;">人気プラン</span>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-white font-semibold tracking-tight text-sm">BizProfit</span>
+            <span class="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-400/20">Cloud</span>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-tight">Enterprise FP&amp;A Suite</p>
         </div>
-        <div class="plan-price">¥2,980 <span style="font-size:12px;font-weight:normal;color:var(--sub);">/ 月（$19 / mo）</span></div>
-        <ul class="plan-list">
-          <li>✓ 正式「御見積書」無制限発行＆PDF出力</li>
-          <li>✓ 100言語翻訳＆グローバル通貨（JPY/USD/EUR）対応</li>
-          <li>✓ 経営台帳データ保存＆優先サポート</li>
-        </ul>
-        <button type="button" id="btnBuyPro" class="btn bgrad">Proプランにアップグレード（決済へ進む）</button>
       </div>
+      <button id="close-sidebar-btn" type="button" class="lg:hidden p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800" aria-label="メニューを閉じる">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
 
-      <div class="card" style="background:var(--elev);margin-bottom:0;">
-        <div class="ctitle"><span>ライセンスキー認証（ご契約済みの方）</span></div>
-        <input type="text" id="inLicense" placeholder="ライセンスキーを入力（例: PRO-2026-VIP）" style="margin-bottom:8px;">
-        <button type="button" id="btnUnlock" class="btn bsub" style="margin-top:0;">ライセンスキーを適用してPro版を有効化</button>
+    <!-- Workspace Context Card -->
+    <div class="px-4 pt-4 pb-2">
+      <div class="p-3 rounded-xl bg-obsidian-800/90 border border-slate-800 flex items-center justify-between gap-2">
+        <div class="min-w-0">
+          <p class="text-[10px] font-medium uppercase tracking-wider text-slate-400">Workspace</p>
+          <p id="sidebar-workspace-name" class="text-xs font-semibold text-white truncate mt-0.5">株式会社エンタープライズ</p>
+        </div>
+        <span id="sidebar-plan-pill" class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-700/80 text-slate-200 border border-slate-600/60">STARTER</span>
       </div>
     </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 px-3 py-3 space-y-6 overflow-y-auto">
+      <div>
+        <p class="px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-500 mb-2">収益・財務分析</p>
+        <div class="space-y-1">
+          <button type="button" data-nav="kpi" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-indigo-600/15 text-white border border-indigo-500/30">
+            <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-400"></i>
+            <span class="flex-1 text-left">KPI逆算シミュレーション</span>
+          </button>
+          <button type="button" data-nav="ltv" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-slate-800/70 border border-transparent">
+            <i data-lucide="trending-up" class="w-4 h-4"></i>
+            <span class="flex-1 text-left">LTV・割引損益分岐</span>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-500 mb-2">営業・帳票オペレーション</p>
+        <div class="space-y-1">
+          <button type="button" data-nav="quote" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-slate-800/70 border border-transparent">
+            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+            <span class="flex-1 text-left">適正見積＆帳票発行</span>
+          </button>
+          <button type="button" data-nav="ledger" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-slate-800/70 border border-transparent">
+            <i data-lucide="folder-kanban" class="w-4 h-4"></i>
+            <span class="flex-1 text-left">経営台帳・履歴</span>
+            <span id="ledger-count-badge" class="text-[11px] font-mono px-1.5 py-0.5 rounded-md bg-slate-800 text-slate-300">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-500 mb-2">ご契約・セキュリティ</p>
+        <div class="space-y-1">
+          <button type="button" data-nav="pricing" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-slate-400 hover:text-white hover:bg-slate-800/70 border border-transparent">
+            <i data-lucide="credit-card" class="w-4 h-4"></i>
+            <span class="flex-1 text-left">法人料金プラン・認証</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Upgrade / Security Footer -->
+    <div class="p-4 border-t border-slate-800/80 space-y-3">
+      <div id="sidebar-upgrade-card" class="p-3.5 rounded-xl bg-gradient-to-br from-indigo-950/90 to-slate-900 border border-indigo-500/25">
+        <div class="flex items-center gap-2 text-xs font-semibold text-white">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span>Business Pro へ移行</span>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">無制限の見積PDF出力・CSV連携・チーム権限管理を解放</p>
+        <button type="button" id="sidebar-upgrade-btn" class="mt-2.5 w-full py-1.5 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors">
+          プランを確認する
+        </button>
+      </div>
+      <div class="flex items-center justify-between text-[10px] text-slate-500 px-1">
+        <span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-3 h-3 text-emerald-500"></i> ISO27001準拠設計</span>
+        <span class="font-mono">v2.4 ENT</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Application Shell -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- Top Executive Command Bar -->
+    <header id="app-header" class="sticky top-0 z-30 h-16 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <button id="open-sidebar-btn" type="button" class="lg:hidden p-2 -ml-2 rounded-lg text-slate-600 hover:bg-slate-100" aria-label="メニューを開く">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <span>BizProfit Enterprise</span>
+            <span>/</span>
+            <span id="header-breadcrumb" class="text-slate-600 font-medium truncate">KPI逆算シミュレーション</span>
+          </div>
+          <h1 id="header-title" class="text-base sm:text-lg font-bold text-slate-900 tracking-tight truncate">KPI逆算・収益構造シミュレーター</h1>
+        </div>
+      </div>
+
+      <!-- Right Controls: Currency + Plan + Quick Action -->
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <!-- Currency Segmented Control -->
+        <div class="inline-flex items-center p-0.5 rounded-lg bg-slate-100 border border-slate-200/80" role="group" aria-label="通貨切替">
+          <button type="button" data-currency="JPY" class="currency-btn px-2.5 py-1 rounded-md text-xs font-semibold transition-all bg-white text-slate-900 shadow-xs">¥ JPY</button>
+          <button type="button" data-currency="USD" class="currency-btn px-2.5 py-1 rounded-md text-xs font-medium transition-all text-slate-500 hover:text-slate-800">$ USD</button>
+          <button type="button" data-currency="EUR" class="currency-btn px-2.5 py-1 rounded-md text-xs font-medium transition-all text-slate-500 hover:text-slate-800">€ EUR</button>
+        </div>
+
+        <button type="button" id="header-plan-btn" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-colors">
+          <span id="header-plan-dot" class="w-2 h-2 rounded-full bg-slate-400"></span>
+          <span id="header-plan-label">STARTER</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Canvas -->
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+
+      <!-- =========================================================
+           VIEW 1: KPI 逆算シミュレーション
+      ========================================================== -->
+      <section id="view-kpi" class="view-panel active space-y-6">
+        <!-- Preset & Action Strip -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-card">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-semibold text-slate-500 mr-1 flex items-center gap-1.5">
+              <i data-lucide="layers" class="w-3.5 h-3.5 text-indigo-600"></i> 業種プリセット:
+            </span>
+            <button type="button" data-preset="standard" class="preset-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white transition-colors">標準モデル</button>
+            <button type="button" data-preset="saas" class="preset-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">BtoB SaaS</button>
+            <button type="button" data-preset="dev" class="preset-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">受託開発・SI</button>
+            <button type="button" data-preset="consulting" class="preset-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">法人コンサル</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" id="kpi-reset-btn" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-colors flex items-center gap-1.5">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> リセット
+            </button>
+            <button type="button" id="kpi-save-btn" class="px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs transition-colors flex items-center gap-1.5">
+              <i data-lucide="bookmark-plus" class="w-3.5 h-3.5"></i> 経営台帳に保存
+            </button>
+          </div>
+        </div>
+
+        <!-- Executive Hero Row -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <!-- Dark Obsidian Executive Summary Card -->
+          <div class="xl:col-span-5 rounded-2xl bg-gradient-to-br from-obsidian-950 via-obsidian-900 to-slate-900 text-white p-6 sm:p-7 border border-slate-800 shadow-dark-card flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-indigo-500/10 blur-2xl pointer-events-none"></div>
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[11px] font-semibold uppercase tracking-widest text-indigo-300">Projected Monthly Net Profit</span>
+                <span id="kpi-health-badge" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 whitespace-nowrap shrink-0">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 優良収益モデル
+                </span>
+              </div>
+
+              <div class="mt-4">
+                <div id="kpi-net-profit" class="text-4xl sm:text-5xl font-bold tracking-tight font-mono tabular-nums text-white">¥640,000</div>
+                <p class="text-xs text-slate-400 mt-1.5">年間換算純利益: <span id="kpi-annual-profit" class="text-slate-200 font-mono font-semibold tabular-nums">¥7,680,000</span></p>
+              </div>
+
+              <!-- Margin Progress Bar -->
+              <div class="mt-6 space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-slate-400">営業利益率（対売上）</span>
+                  <span id="kpi-margin-rate" class="font-mono font-semibold text-emerald-400 tabular-nums">64.0%</span>
+                </div>
+                <div class="h-2 w-full rounded-full bg-slate-800 overflow-hidden">
+                  <div id="kpi-margin-bar" class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-emerald-400 transition-all duration-300" style="width: 64%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Metrics Divider -->
+            <div class="mt-6 pt-5 border-t border-slate-800/90 grid grid-cols-3 gap-3">
+              <div>
+                <p class="text-[11px] text-slate-400">広告ROAS</p>
+                <p id="kpi-roas" class="text-lg font-bold font-mono tabular-nums text-white mt-0.5">500%</p>
+              </div>
+              <div>
+                <p class="text-[11px] text-slate-400">限界利益率</p>
+                <p id="kpi-contrib-margin" class="text-lg font-bold font-mono tabular-nums text-white mt-0.5">84.0%</p>
+              </div>
+              <div>
+                <p class="text-[11px] text-slate-400">許容上限CPA</p>
+                <p id="kpi-max-cpa" class="text-lg font-bold font-mono tabular-nums text-indigo-300 mt-0.5">¥84,000</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right 4 KPI Cards + CFO Insight -->
+          <div class="xl:col-span-7 flex flex-col justify-between gap-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-card">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-slate-500">必要成約件数</span>
+                  <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <i data-lucide="target" class="w-4 h-4"></i>
+                  </div>
+                </div>
+                <div id="kpi-deals" class="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-slate-900 mt-3">10<span class="text-sm font-sans font-medium text-slate-500 ml-1">件 / 月</span></div>
+                <p class="text-[11px] text-slate-400 mt-1">目標売上 ÷ 契約単価</p>
+              </div>
+
+              <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-card">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-slate-500">必要商談・見込客数</span>
+                  <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center">
+                    <i data-lucide="users" class="w-4 h-4"></i>
+                  </div>
+                </div>
+                <div id="kpi-leads" class="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-slate-900 mt-3">50<span class="text-sm font-sans font-medium text-slate-500 ml-1">件 / 月</span></div>
+                <p class="text-[11px] text-slate-400 mt-1">成約率 <span id="kpi-cvr-hint" class="font-mono">20%</span> ベースの逆算</p>
+              </div>
+
+              <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-card">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-slate-500">顧客獲得単価 (CPA)</span>
+                  <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                  </div>
+                </div>
+                <div id="kpi-cpa" class="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-slate-900 mt-3">¥20,000</div>
+                <p class="text-[11px] text-slate-400 mt-1">単価に対する獲得費率: <span id="kpi-cpa-ratio" class="font-mono font-medium text-slate-600">20.0%</span></p>
+              </div>
+
+              <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-card">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-medium text-slate-500">想定月間広告予算</span>
+                  <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <i data-lucide="megaphone" class="w-4 h-4"></i>
+                  </div>
+                </div>
+                <div id="kpi-ad-budget" class="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-slate-900 mt-3">¥200,000</div>
+                <p class="text-[11px] text-slate-400 mt-1">売上比広告費: <span id="kpi-ad-ratio" class="font-mono font-medium text-slate-600">20.0%</span></p>
+              </div>
+            </div>
+
+            <!-- Automated CFO Diagnostic Callout -->
+            <div id="kpi-cfo-banner" class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                <i data-lucide="cpu" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <p class="text-xs font-bold text-indigo-950">CFO 財務インサイト診断</p>
+                <p id="kpi-cfo-text" class="text-xs text-indigo-900/80 mt-0.5 leading-relaxed">
+                  ROAS 500%・営業利益率 64.0% と極めて健全なユニットエコノミクスです。CPAの上限（損益分岐ライン）は ¥84,000 のため、広告投下を拡大してスケールする余地があります。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulation Controls + Live P&L Visualization -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Sliders & Direct Inputs -->
+          <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-card space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div>
+                <h2 class="text-sm font-bold text-slate-900">KPIシミュレーション設定</h2>
+                <p class="text-xs text-slate-500 mt-0.5">スライダーまたは数値入力でリアルタイムに収益構造を検証できます</p>
+              </div>
+              <span class="text-[11px] font-mono text-slate-400">REALTIME SYNC</span>
+            </div>
+
+            <!-- Parameter 1: Target Monthly Revenue -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <label for="in-revenue" class="text-xs font-semibold text-slate-700">目標月間売上</label>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-slate-400 font-mono currency-symbol">¥</span>
+                  <input id="in-revenue-num" type="number" step="50000" min="100000" max="50000000" value="1000000" class="w-32 text-right font-mono text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                </div>
+              </div>
+              <input id="in-revenue" type="range" min="100000" max="20000000" step="50000" value="1000000" class="ent-slider" />
+            </div>
+
+            <!-- Parameter 2: Unit Price -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <label for="in-price" class="text-xs font-semibold text-slate-700">商品・契約単価</label>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-slate-400 font-mono currency-symbol">¥</span>
+                  <input id="in-price-num" type="number" step="10000" min="5000" max="10000000" value="100000" class="w-32 text-right font-mono text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                </div>
+              </div>
+              <input id="in-price" type="range" min="5000" max="2000000" step="5000" value="100000" class="ent-slider" />
+            </div>
+
+            <!-- Parameter 3: Close Rate -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <label for="in-cvr" class="text-xs font-semibold text-slate-700">商談・LP成約率</label>
+                <div class="flex items-center gap-1.5">
+                  <input id="in-cvr-num" type="number" step="1" min="1" max="100" value="20" class="w-24 text-right font-mono text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                  <span class="text-xs text-slate-500 font-mono">%</span>
+                </div>
+              </div>
+              <input id="in-cvr" type="range" min="1" max="80" step="1" value="20" class="ent-slider" />
+            </div>
+
+            <!-- Parameter 4: CPL -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <label for="in-cpl" class="text-xs font-semibold text-slate-700">見込客1件獲得コスト (CPL)</label>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-slate-400 font-mono currency-symbol">¥</span>
+                  <input id="in-cpl-num" type="number" step="500" min="0" max="200000" value="4000" class="w-32 text-right font-mono text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                </div>
+              </div>
+              <input id="in-cpl" type="range" min="0" max="50000" step="500" value="4000" class="ent-slider" />
+            </div>
+
+            <!-- Parameter 5: COGS / Outsourcing Rate -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <label for="in-cogs" class="text-xs font-semibold text-slate-700">原価・外注費率</label>
+                <div class="flex items-center gap-1.5">
+                  <input id="in-cogs-num" type="number" step="1" min="0" max="90" value="16" class="w-24 text-right font-mono text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                  <span class="text-xs text-slate-500 font-mono">%</span>
+                </div>
+              </div>
+              <input id="in-cogs" type="range" min="0" max="85" step="1" value="16" class="ent-slider" />
+            </div>
+
+            <!-- Parameter 6: Optional Monthly Fixed Cost -->
+            <div class="space-y-2 pt-2 border-t border-slate-100">
+              <div class="flex items-center justify-between gap-2">
+                <label for="in-fixed" class="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+                  月間固定費（人件費・販管費）
+                  <span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">任意</span>
+                </label>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-slate-400 font-mono currency-symbol">¥</span>
+                  <input id="in-fixed-num" type="number" step="50000" min="0" max="20000000" value="0" class="w-32 text-right font-mono text-sm font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                </div>
+              </div>
+              <input id="in-fixed" type="range" min="0" max="5000000" step="50000" value="0" class="ent-slider" />
+            </div>
+          </div>
+
+          <!-- P&L Breakdown Chart Card -->
+          <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-card flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h2 class="text-sm font-bold text-slate-900">月次P&amp;L構成バランス</h2>
+                  <p class="text-xs text-slate-500 mt-0.5">売上に対するコスト構造と最終純利益</p>
+                </div>
+              </div>
+              <div class="relative h-64">
+                <canvas id="kpi-pl-chart"></canvas>
+              </div>
+            </div>
+
+            <!-- Structured P&L Ledger Summary -->
+            <div class="mt-5 pt-4 border-t border-slate-100 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-xs bg-slate-900"></span>目標月間売上</span>
+                <span id="pl-rev" class="font-mono font-semibold text-slate-900 tabular-nums">¥1,000,000</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-xs bg-amber-500"></span>原価・外注費</span>
+                <span id="pl-cogs" class="font-mono font-medium text-slate-700 tabular-nums">-¥160,000</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-xs bg-indigo-500"></span>広告宣伝費</span>
+                <span id="pl-ad" class="font-mono font-medium text-slate-700 tabular-nums">-¥200,000</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slate-500 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-xs bg-slate-400"></span>月間固定費</span>
+                <span id="pl-fixed" class="font-mono font-medium text-slate-700 tabular-nums">¥0</span>
+              </div>
+              <div class="flex items-center justify-between pt-2 border-t border-slate-100 font-bold text-sm">
+                <span class="text-slate-900 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-xs bg-emerald-500"></span>想定営業純利益</span>
+                <span id="pl-net" class="font-mono text-emerald-600 tabular-nums">¥640,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           VIEW 2: 適正見積＆帳票発行
+      ========================================================== -->
+      <section id="view-quote" class="view-panel space-y-6">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+          <!-- Left Inputs Column -->
+          <div id="quote-inputs-col" class="xl:col-span-5 space-y-5">
+            <!-- Margin Engine Card -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-card space-y-5">
+              <div class="border-b border-slate-100 pb-4">
+                <h2 class="text-sm font-bold text-slate-900">赤字ゼロ適正見積もりエンジン</h2>
+                <p class="text-xs text-slate-500 mt-0.5">工数原価と確保粗利率から適正な法人見積金額を自動算出</p>
+              </div>
+
+              <div class="space-y-3.5">
+                <div>
+                  <label for="q-client" class="block text-xs font-semibold text-slate-700 mb-1">取引先企業名</label>
+                  <input id="q-client" type="text" value="株式会社サンプル商事" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500" />
+                </div>
+                <div>
+                  <label for="q-project" class="block text-xs font-semibold text-slate-700 mb-1">案件・サービス名</label>
+                  <input id="q-project" type="text" value="AI業務自動化・Webシステム構築支援" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label for="q-hours" class="block text-xs font-semibold text-slate-700 mb-1">想定稼働時間 (h)</label>
+                    <input id="q-hours" type="number" min="0" step="1" value="25" class="w-full px-3 py-2 text-sm font-mono font-semibold bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                  </div>
+                  <div>
+                    <label for="q-rate" class="block text-xs font-semibold text-slate-700 mb-1">基準時間単価</label>
+                    <input id="q-rate" type="number" min="0" step="500" value="5000" class="w-full px-3 py-2 text-sm font-mono font-semibold bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label for="q-cost" class="block text-xs font-semibold text-slate-700 mb-1">外注・直接原価</label>
+                    <input id="q-cost" type="number" min="0" step="1000" value="30000" class="w-full px-3 py-2 text-sm font-mono font-semibold bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                  </div>
+                  <div>
+                    <label for="q-margin" class="block text-xs font-semibold text-slate-700 mb-1">確保粗利率 (%)</label>
+                    <input id="q-margin" type="number" min="0" max="85" step="1" value="35" class="w-full px-3 py-2 text-sm font-mono font-semibold bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 tabular-nums" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Issuer Details Accordion-style box -->
+              <div class="pt-4 border-t border-slate-100 space-y-3">
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">発行元・インボイス情報</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label for="q-issuer" class="block text-[11px] font-medium text-slate-600 mb-1">自社名（発行元）</label>
+                    <input id="q-issuer" type="text" value="BizProfit Cloud Enterprise" class="w-full px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:border-indigo-500" />
+                  </div>
+                  <div>
+                    <label for="q-invoice-no" class="block text-[11px] font-medium text-slate-600 mb-1">適格請求書登録番号</label>
+                    <input id="q-invoice-no" type="text" value="T1010001234567" class="w-full px-2.5 py-1.5 text-xs font-mono bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:border-indigo-500" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Real-time Floor & Recommended Box -->
+              <div class="p-4 rounded-xl bg-obsidian-900 text-white space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-slate-400">赤字ゼロ最低ライン（原価計）</span>
+                  <span id="q-floor-val" class="text-sm font-mono font-semibold text-amber-300 tabular-nums">¥155,000</span>
+                </div>
+                <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+                  <div>
+                    <span class="text-xs font-semibold text-indigo-300 block">推奨御見積額（税込10%）</span>
+                    <span class="text-[11px] text-slate-400">確保粗利額: <span id="q-profit-val" class="font-mono text-emerald-400">¥83,462</span></span>
+                  </div>
+                  <span id="q-total-val" class="text-2xl font-bold font-mono text-white tabular-nums">¥262,308</span>
+                </div>
+                <!-- Visual Cost vs Margin Bar -->
+                <div class="pt-1">
+                  <div class="h-2 w-full rounded-full bg-slate-800 overflow-hidden flex">
+                    <div id="q-bar-labor" class="h-full bg-sky-400 transition-all" style="width: 52%"></div>
+                    <div id="q-bar-outsource" class="h-full bg-amber-400 transition-all" style="width: 13%"></div>
+                    <div id="q-bar-profit" class="h-full bg-emerald-400 transition-all" style="width: 35%"></div>
+                  </div>
+                  <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1.5">
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-sky-400"></span>人件費原価</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span>外注・経費</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>確保粗利</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button type="button" id="q-issue-btn" class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs transition-colors flex items-center justify-center gap-2">
+                  <i data-lucide="file-check-2" class="w-4 h-4"></i> 正式発行＆台帳保存
+                </button>
+                <button type="button" id="q-print-btn" class="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 text-xs font-semibold transition-colors flex items-center justify-center gap-2">
+                  <i data-lucide="printer" class="w-4 h-4"></i> PDF出力 / 印刷
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Formal Japanese Enterprise Quotation Preview -->
+          <div id="quote-preview-col" class="xl:col-span-7">
+            <div id="quote-document" class="bg-white rounded-2xl border border-slate-200/90 shadow-elevated p-6 sm:p-10 text-slate-900">
+              <!-- Top Document Header -->
+              <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b-2 border-slate-900 pb-5">
+                <div>
+                  <p class="text-[10px] font-mono uppercase tracking-widest text-indigo-600 font-semibold">OFFICIAL QUOTATION</p>
+                  <h2 class="text-2xl sm:text-3xl font-bold tracking-[0.25em] text-slate-900 mt-1">御 見 積 書</h2>
+                </div>
+                <div class="text-xs text-slate-600 sm:text-right space-y-1 font-mono">
+                  <p>見積番号: <span id="doc-number" class="font-semibold text-slate-900">BP-202611-001</span></p>
+                  <p>発行日: <span id="doc-date" class="font-semibold text-slate-900">2026年11月26日</span></p>
+                  <p>有効期限: <span id="doc-expiry" class="font-semibold text-slate-900">発行日より14日間</span></p>
+                </div>
+              </div>
+
+              <!-- Client & Issuer Grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 mt-7">
+                <div class="sm:col-span-7">
+                  <div class="border-b border-slate-800 pb-2 mb-3">
+                    <span id="doc-client" class="text-lg font-bold text-slate-900">株式会社サンプル商事</span>
+                    <span class="text-sm font-medium text-slate-700 ml-2">御中</span>
+                  </div>
+                  <p class="text-xs text-slate-600 leading-relaxed">平素は格別のご高配を賜り、厚く御礼申し上げます。<br />ご依頼いただきました件につきまして、下記の通り御見積申し上げます。</p>
+                  <div class="mt-5 p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-baseline justify-between gap-2">
+                    <span class="text-xs font-bold text-slate-700">御見積金額（税込）</span>
+                    <span id="doc-grand-total" class="text-2xl sm:text-3xl font-bold font-mono text-slate-900 tabular-nums">¥262,308</span>
+                  </div>
+                </div>
+
+                <div class="sm:col-span-5 text-xs text-slate-600 space-y-1.5 sm:pl-4 sm:border-l border-slate-100">
+                  <p id="doc-issuer" class="text-sm font-bold text-slate-900">BizProfit Cloud Enterprise</p>
+                  <p class="font-mono text-[11px] text-slate-500">登録番号: <span id="doc-invoice-no">T1010001234567</span></p>
+                  <p class="text-[11px] text-slate-500">〒100-0005 東京都千代田区丸の内1-1-1</p>
+                  <p class="text-[11px] text-slate-500">Enterprise Solutions Division</p>
+                  <div class="pt-3 flex justify-end">
+                    <div class="w-14 h-14 rounded-md border border-rose-300 bg-rose-50/40 flex flex-col items-center justify-center text-rose-700 select-none">
+                      <span class="text-[9px] font-bold leading-tight">BizProfit</span>
+                      <span class="text-[9px] font-bold leading-tight">法人承認</span>
+                      <span class="text-[8px] leading-tight">之印</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Line Items Table -->
+              <div class="mt-8 overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-900 text-white text-xs">
+                      <th class="py-2.5 px-4 font-semibold rounded-tl-lg">項目・サービス内容</th>
+                      <th class="py-2.5 px-3 font-semibold text-right w-20">数量</th>
+                      <th class="py-2.5 px-4 font-semibold text-right w-36 rounded-tr-lg">金額（税抜）</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200 text-xs">
+                    <tr>
+                      <td class="py-3.5 px-4">
+                        <p id="doc-project" class="font-semibold text-slate-900">AI業務自動化・Webシステム構築支援</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5">要件定義・設計・実装および導入支援一式（想定稼働 <span id="doc-hours-meta">25</span>時間）</p>
+                      </td>
+                      <td class="py-3.5 px-3 text-right font-mono text-slate-700">1 式</td>
+                      <td id="doc-subtotal-row" class="py-3.5 px-4 text-right font-mono font-semibold text-slate-900 tabular-nums">¥238,462</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Tax & Totals Summary -->
+              <div class="mt-4 flex justify-end">
+                <div class="w-full sm:w-72 space-y-2 text-xs">
+                  <div class="flex justify-between py-1.5 border-b border-slate-100">
+                    <span class="text-slate-500">小計（税抜）</span>
+                    <span id="doc-subtotal" class="font-mono font-semibold text-slate-900 tabular-nums">¥238,462</span>
+                  </div>
+                  <div class="flex justify-between py-1.5 border-b border-slate-100">
+                    <span class="text-slate-500">消費税等（10%対象）</span>
+                    <span id="doc-tax" class="font-mono font-medium text-slate-700 tabular-nums">¥23,846</span>
+                  </div>
+                  <div class="flex justify-between py-2 text-sm font-bold text-slate-900">
+                    <span>合計金額（税込）</span>
+                    <span id="doc-total-footer" class="font-mono tabular-nums">¥262,308</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Remarks -->
+              <div class="mt-8 pt-5 border-t border-slate-200">
+                <p class="text-[11px] font-bold text-slate-700 mb-1.5">備考・お支払条件</p>
+                <ul class="text-[11px] text-slate-500 space-y-1 list-disc list-inside">
+                  <li>お支払条件：納品月末締め、翌月末日までに指定銀行口座へお振込みをお願いいたします。</li>
+                  <li>本御見積書はインボイス制度（適格請求書等保存方式）に準拠した税率区分で算出しております。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           VIEW 3: LTV・割引損益分岐
+      ========================================================== -->
+      <section id="view-ltv" class="view-panel space-y-6">
+        <!-- Section A: One-Time vs Subscription 12-Month Simulator -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-card space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div>
+              <span class="text-[10px] font-semibold uppercase tracking-widest text-indigo-600">RECURRING REVENUE ENGINE</span>
+              <h2 class="text-base font-bold text-slate-900 mt-0.5">単発売り vs サブスク課金（12ヶ月累積収益シミュレーション）</h2>
+            </div>
+            <div id="ltv-lift-pill" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold font-mono tabular-nums">
+              +¥967,049 増収効果
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Controls + Unit Economics Cards -->
+            <div class="lg:col-span-5 space-y-5">
+              <div class="space-y-4">
+                <div class="space-y-1.5">
+                  <div class="flex justify-between text-xs">
+                    <label for="ltv-acq" class="font-semibold text-slate-700">毎月新規獲得顧客数</label>
+                    <span id="ltv-acq-val" class="font-mono font-bold text-slate-900">10 件 / 月</span>
+                  </div>
+                  <input id="ltv-acq" type="range" min="1" max="100" step="1" value="10" class="ent-slider" />
+                </div>
+
+                <div class="space-y-1.5">
+                  <div class="flex justify-between text-xs">
+                    <label for="ltv-mrr" class="font-semibold text-slate-700">月額単価 (ARPA)</label>
+                    <span id="ltv-mrr-val" class="font-mono font-bold text-slate-900 tabular-nums">¥4,980</span>
+                  </div>
+                  <input id="ltv-mrr" type="range" min="1000" max="100000" step="500" value="4980" class="ent-slider" />
+                </div>
+
+                <div class="space-y-1.5">
+                  <div class="flex justify-between text-xs">
+                    <label for="ltv-ret" class="font-semibold text-slate-700">月間継続率 (リテンション)</label>
+                    <span id="ltv-ret-val" class="font-mono font-bold text-indigo-600">90%</span>
+                  </div>
+                  <input id="ltv-ret" type="range" min="50" max="99" step="1" value="90" class="ent-slider" />
+                </div>
+              </div>
+
+              <!-- Key SaaS KPIs -->
+              <div class="grid grid-cols-2 gap-3 pt-2">
+                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                  <p class="text-[11px] text-slate-500">単発販売（1年計）</p>
+                  <p id="ltv-onetime-total" class="text-base font-bold font-mono text-slate-700 mt-1 tabular-nums">¥1,792,800</p>
+                  <p class="text-[10px] text-slate-400 mt-0.5">3ヶ月相当の買切想定</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-indigo-50/70 border border-indigo-200/80">
+                  <p class="text-[11px] text-indigo-700 font-medium">サブスク継続（1年計）</p>
+                  <p id="ltv-sub-total" class="text-base font-bold font-mono text-indigo-900 mt-1 tabular-nums">¥2,759,849</p>
+                  <p class="text-[10px] text-indigo-600/80 mt-0.5">12ヶ月目MRR: <span id="ltv-m12-mrr" class="font-mono font-semibold">¥357,351</span></p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-white border border-slate-200/80">
+                  <p class="text-[11px] text-slate-500">1顧客あたりLTV</p>
+                  <p id="ltv-per-cust" class="text-base font-bold font-mono text-slate-900 mt-1 tabular-nums">¥49,800</p>
+                  <p class="text-[10px] text-slate-400 mt-0.5">平均継続: <span id="ltv-avg-life" class="font-mono">10.0ヶ月</span></p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-white border border-slate-200/80">
+                  <p class="text-[11px] text-slate-500">12ヶ月目 ARR換算</p>
+                  <p id="ltv-arr" class="text-base font-bold font-mono text-emerald-700 mt-1 tabular-nums">¥4,288,210</p>
+                  <p class="text-[10px] text-slate-400 mt-0.5">年間経常収益ペース</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 12-Month Cumulative Revenue Line Chart -->
+            <div class="lg:col-span-7 flex flex-col justify-between">
+              <div class="relative h-72">
+                <canvas id="ltv-curve-chart"></canvas>
+              </div>
+              <p id="ltv-summary-note" class="text-xs text-slate-600 bg-slate-50 border border-slate-200/70 rounded-xl p-3 mt-4 leading-relaxed">
+                サブスク継続モデルにより、1年間の累積売上が単発販売と比較して <strong class="text-emerald-700 font-mono">+¥967,049</strong> 増加します。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section B: Discount Break-Even Simulator -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-card space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <span class="text-[10px] font-semibold uppercase tracking-widest text-rose-600">PRICING GOVERNANCE</span>
+            <h2 class="text-base font-bold text-slate-900 mt-0.5">割引・キャンペーン損益分岐シミュレーター</h2>
+            <p class="text-xs text-slate-500 mt-0.5">値引きを行った際、元の粗利総額を維持するために必要な販売数量の増加率を可視化します</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div class="lg:col-span-5 space-y-5">
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-xs">
+                  <label for="disc-margin" class="font-semibold text-slate-700">元の粗利率</label>
+                  <span id="disc-margin-val" class="font-mono font-bold text-slate-900">50%</span>
+                </div>
+                <input id="disc-margin" type="range" min="10" max="90" step="1" value="50" class="ent-slider" />
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-xs">
+                  <label for="disc-rate" class="font-semibold text-slate-700">適用割引率</label>
+                  <span id="disc-rate-val" class="font-mono font-bold text-rose-600">20% OFF</span>
+                </div>
+                <input id="disc-rate" type="range" min="5" max="60" step="1" value="20" class="ent-slider" />
+              </div>
+
+              <div id="disc-result-card" class="p-5 rounded-xl bg-obsidian-900 text-white">
+                <p class="text-[11px] uppercase tracking-wider text-slate-400">同利益を残すための必要販売増</p>
+                <div id="disc-req-increase" class="text-3xl font-bold font-mono text-amber-400 mt-2 tabular-nums">+67%</div>
+                <p id="disc-req-sub" class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                  販売数量を <strong class="text-white font-mono">1.67倍</strong> に増やさない限り、割引前より利益が減少します。
+                </p>
+              </div>
+            </div>
+
+            <div class="lg:col-span-7">
+              <div class="relative h-64">
+                <canvas id="disc-bar-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           VIEW 4: 経営台帳・履歴管理
+      ========================================================== -->
+      <section id="view-ledger" class="view-panel space-y-6">
+        <!-- Ledger KPI Strip -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-card">
+            <p class="text-xs font-medium text-slate-500">保存済みレコード数</p>
+            <p id="ledger-stat-count" class="text-2xl font-bold font-mono text-slate-900 mt-1 tabular-nums">0 件</p>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-card">
+            <p class="text-xs font-medium text-slate-500">見積発行パイプライン合計</p>
+            <p id="ledger-stat-quotes" class="text-2xl font-bold font-mono text-indigo-600 mt-1 tabular-nums">¥0</p>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-card">
+            <p class="text-xs font-medium text-slate-500">KPI計画 想定月次純利益（最新）</p>
+            <p id="ledger-stat-profit" class="text-2xl font-bold font-mono text-emerald-600 mt-1 tabular-nums">¥0</p>
+          </div>
+        </div>
+
+        <!-- Ledger Toolbar & Table -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-card overflow-hidden">
+          <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="inline-flex p-0.5 rounded-lg bg-slate-100 border border-slate-200/70">
+                <button type="button" data-filter="all" class="ledger-filter-btn px-3 py-1 rounded-md text-xs font-semibold bg-white text-slate-900 shadow-xs">すべて</button>
+                <button type="button" data-filter="kpi" class="ledger-filter-btn px-3 py-1 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900">KPI計画</button>
+                <button type="button" data-filter="quote" class="ledger-filter-btn px-3 py-1 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900">御見積書</button>
+              </div>
+              <div class="relative">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input id="ledger-search" type="text" placeholder="案件名・企業名で検索..." class="pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:border-indigo-500 w-48 sm:w-56" />
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" id="ledger-copy-btn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-colors flex items-center gap-1.5">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> 最新レポートをコピー
+              </button>
+              <button type="button" id="ledger-csv-btn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors flex items-center gap-1.5">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i> CSVエクスポート
+              </button>
+              <button type="button" id="ledger-clear-btn" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-600 hover:bg-rose-50 border border-rose-200 transition-colors flex items-center gap-1.5">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> 全削除
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Ledger Body -->
+          <div id="ledger-list-container" class="divide-y divide-slate-100"></div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           VIEW 5: 法人料金プラン・ライセンス認証
+      ========================================================== -->
+      <section id="view-pricing" class="view-panel space-y-8">
+        <!-- Pricing Header + Annual Toggle -->
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/70 text-xs font-semibold">
+            <i data-lucide="building-2" class="w-3.5 h-3.5"></i> 法人・エンタープライズ向けサブスクリプション
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">経営判断のスピードを上げる、最適なプランを選択</h2>
+          <p class="text-sm text-slate-500">個人事業主から上場企業の経営企画・営業部門まで、セキュリティ要件と規模に応じた導入が可能です。</p>
+
+          <!-- Billing Cycle Toggle -->
+          <div class="pt-3 flex items-center justify-center gap-3">
+            <span id="billing-monthly-label" class="text-xs font-semibold text-slate-900">月払い</span>
+            <button type="button" id="billing-toggle" role="switch" aria-checked="true" aria-label="年払い切替" class="relative inline-flex h-6 w-11 items-center rounded-full bg-indigo-600 transition-colors">
+              <span id="billing-knob" class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+            </button>
+            <span id="billing-annual-label" class="text-xs font-semibold text-indigo-700 flex items-center gap-1.5">
+              年払い <span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">20% OFF</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- 3-Tier Enterprise Pricing Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+          <!-- Tier 1: Starter -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-card p-6 sm:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-slate-900">Starter</h3>
+                <span id="badge-starter" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">現在のプラン</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1.5">KPI逆算と基本見積もりの検証・トライアル向け</p>
+              <div class="mt-5 flex items-baseline gap-1">
+                <span id="price-starter" class="text-3xl font-bold font-mono text-slate-900 tabular-nums">¥0</span>
+                <span class="text-xs text-slate-500">/ 月</span>
+              </div>
+              <ul class="mt-6 space-y-3 text-xs text-slate-600">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0"></i> KPI逆算シミュレーター（基本モデル）</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0"></i> 適正見積プレビュー発行（月3件まで）</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0"></i> LTV・割引損益分岐シミュレーター</li>
+              </ul>
+            </div>
+            <button type="button" data-select-plan="STARTER" class="plan-select-btn mt-8 w-full py-2.5 px-4 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 text-xs font-semibold transition-colors">
+              無料プランを選択
+            </button>
+          </div>
+
+          <!-- Tier 2: Business Pro (Featured) -->
+          <div class="bg-obsidian-900 text-white rounded-2xl border-2 border-indigo-500 shadow-dark-card p-6 sm:p-7 flex flex-col justify-between relative">
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-indigo-500 text-white text-[10px] font-bold uppercase tracking-wider shadow-xs">
+              法人導入 No.1
+            </div>
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-white">Business Pro</h3>
+                <span id="badge-pro" class="hidden text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">有効化済み</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1.5">中小企業・営業チーム・制作会社の標準収益基盤</p>
+              <div class="mt-5 flex items-baseline gap-1">
+                <span id="price-pro" class="text-3xl font-bold font-mono text-white tabular-nums">¥3,980</span>
+                <span class="text-xs text-slate-400">/ 月（税抜）</span>
+              </div>
+              <p id="price-pro-sub" class="text-[11px] text-indigo-300 mt-1">年払い一括 ¥47,760（月払い ¥4,980）</p>
+              <ul class="mt-6 space-y-3 text-xs text-slate-300">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-400 shrink-0"></i> 正式「御見積書」無制限発行＆PDF出力</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-400 shrink-0"></i> インボイス登録番号・自社ロゴ・押印カスタマイズ</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-400 shrink-0"></i> グローバル多通貨（JPY / USD / EUR）リアルタイム換算</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-400 shrink-0"></i> 経営台帳データ無制限保存＆CSVエクスポート</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-400 shrink-0"></i> 優先メール・チャットサポート（営業日24h以内）</li>
+              </ul>
+            </div>
+            <button type="button" data-select-plan="PRO" class="plan-select-btn mt-8 w-full py-2.5 px-4 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-semibold shadow-sm transition-colors">
+              Business Pro にアップグレード
+            </button>
+          </div>
+
+          <!-- Tier 3: Enterprise -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-card p-6 sm:p-7 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-slate-900">Enterprise</h3>
+                <span id="badge-ent" class="hidden text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">有効化済み</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1.5">上場企業・複数事業部の全社ガバナンス導入向け</p>
+              <div class="mt-5 flex items-baseline gap-1">
+                <span id="price-ent" class="text-3xl font-bold font-mono text-slate-900 tabular-nums">¥24,800</span>
+                <span class="text-xs text-slate-500">〜 / 月</span>
+              </div>
+              <p id="price-ent-sub" class="text-[11px] text-slate-500 mt-1">請求書払い・年間契約・セキュリティチェックシート対応</p>
+              <ul class="mt-6 space-y-3 text-xs text-slate-600">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-600 shrink-0"></i> Business Pro の全機能 + ユーザー数無制限</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-600 shrink-0"></i> SSO（SAML 2.0）/ IP制限 / 操作監査ログ</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-600 shrink-0"></i> 見積承認ワークフロー・粗利率下限ロック</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-600 shrink-0"></i> 専任カスタマーサクセス＆SLA 99.95%保証</li>
+              </ul>
+            </div>
+            <button type="button" data-select-plan="ENTERPRISE" class="plan-select-btn mt-8 w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition-colors">
+              法人導入・デモを相談する
+            </button>
+          </div>
+        </div>
+
+        <!-- Enterprise Security & Compliance Strip -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-xl border border-slate-200/80 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0"><i data-lucide="shield-check" class="w-4 h-4"></i></div>
+            <div><p class="text-xs font-bold text-slate-900">ISO/IEC 27001</p><p class="text-[11px] text-slate-500">情報セキュリティ準拠</p></div>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200/80 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0"><i data-lucide="lock" class="w-4 h-4"></i></div>
+            <div><p class="text-xs font-bold text-slate-900">TLS 1.3 / AES-256</p><p class="text-[11px] text-slate-500">通信・保存データ暗号化</p></div>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200/80 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center shrink-0"><i data-lucide="file-check" class="w-4 h-4"></i></div>
+            <div><p class="text-xs font-bold text-slate-900">インボイス制度対応</p><p class="text-[11px] text-slate-500">適格請求書フォーマット</p></div>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200/80 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0"><i data-lucide="receipt" class="w-4 h-4"></i></div>
+            <div><p class="text-xs font-bold text-slate-900">法人請求書払い</p><p class="text-[11px] text-slate-500">月末締め翌月末払い対応</p></div>
+          </div>
+        </div>
+
+        <!-- License Key Activation Card -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-card flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="key-round" class="w-4 h-4 text-indigo-600"></i> ライセンスキー認証（ご契約済み法人様）
+            </h3>
+            <p class="text-xs text-slate-500 mt-1">発行されたライセンスキーを入力して上位エディションを有効化できます（デモ用キー: <code class="px-1.5 py-0.5 rounded bg-slate-100 font-mono text-slate-700">PRO-2026-VIP</code> / <code class="px-1.5 py-0.5 rounded bg-slate-100 font-mono text-slate-700">ENT-2026-EXEC</code>）</p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <input id="license-input" type="text" placeholder="例: PRO-2026-VIP" class="w-48 sm:w-56 px-3 py-2 text-xs font-mono bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500" />
+            <button type="button" id="license-apply-btn" class="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition-colors whitespace-nowrap">
+              認証して有効化
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
   </div>
-</div>
 
-<nav>
-  <button type="button" class="nb on" data-tab="t1"><span>📊</span><span>KPI逆算</span></button>
-  <button type="button" class="nb" data-tab="t2"><span>🧾</span><span>見積発行</span></button>
-  <button type="button" class="nb" data-tab="t3"><span>📈</span><span>LTV/割引</span></button>
-  <button type="button" class="nb" data-tab="t4"><span>🗂️</span><span>経営台帳</span></button>
-  <button type="button" class="nb" data-tab="t5"><span>💳</span><span>料金プラン</span></button>
-</nav>
-<script>
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({ pageLanguage: 'ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
-}
-</script>
-<script src="https://google.com"></script>
+  <!-- In-Page Modal (Checkout / Enterprise Inquiry / Confirm Clear) -->
+  <div id="app-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-elevated max-w-md w-full p-6 space-y-4">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h3 id="modal-title" class="text-base font-bold text-slate-900">確認</h3>
+          <p id="modal-subtitle" class="text-xs text-slate-500 mt-0.5"></p>
+        </div>
+        <button type="button" id="modal-close-btn" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100" aria-label="閉じる">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div id="modal-body" class="text-xs text-slate-600 space-y-3"></div>
+      <div id="modal-actions" class="flex items-center justify-end gap-2 pt-2"></div>
+    </div>
+  </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  function g(id) { return document.getElementById(id); }
+  <!-- Toast Notification Stack -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  var currs = [
-    { code: 'JPY', sym: '¥', rate: 1 },
-    { code: 'USD', sym: '$', rate: 0.0067 },
-    { code: 'EUR', sym: '€', rate: 0.0062 }
-  ];
-  var cIdx = 0;
+  <script>
+    (function () {
+      'use strict';
 
-  function y(n) {
-    var c = currs[cIdx];
-    var val = n * c.rate;
-    return c.code === 'JPY' ? c.sym + Math.round(val).toLocaleString() : c.sym + val.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  }
+      // =========================================================
+      // 1. State & Constants
+      // =========================================================
+      const CURRENCIES = {
+        JPY: { symbol: '¥', rate: 1, decimals: 0, label: 'JPY' },
+        USD: { symbol: '$', rate: 1 / 150, decimals: 0, label: 'USD' },
+        EUR: { symbol: '€', rate: 1 / 162, decimals: 0, label: 'EUR' }
+      };
 
-  g('btnCurr').addEventListener('click', function() {
-    cIdx = (cIdx + 1) % currs.length;
-    this.textContent = currs[cIdx].sym + ' ' + currs[cIdx].code;
-    cKpi(); cEst(); cLtv();
-  });
+      const VIEW_META = {
+        kpi: { breadcrumb: 'KPI逆算シミュレーション', title: 'KPI逆算・収益構造シミュレーター' },
+        quote: { breadcrumb: '適正見積＆帳票発行', title: '赤字ゼロ適正見積もり＆法人帳票発行' },
+        ltv: { breadcrumb: 'LTV・割引損益分岐', title: 'LTV・サブスク収益＆割引損益分岐分析' },
+        ledger: { breadcrumb: '経営台帳・履歴', title: '保存済み経営台帳・ポートフォリオ管理' },
+        pricing: { breadcrumb: '法人料金プラン・認証', title: '法人サブスクリプション・ライセンス管理' }
+      };
 
-  var navs = document.querySelectorAll('.nb');
-  function switchTab(target) {
-    var pgs = document.querySelectorAll('.pg');
-    for (var j = 0; j < pgs.length; j++) pgs[j].classList.remove('on');
-    for (var k = 0; k < navs.length; k++) {
-      navs[k].classList.remove('on');
-      if (navs[k].getAttribute('data-tab') === target) navs[k].classList.add('on');
-    }
-    g(target).classList.add('on');
-    window.scrollTo(0, 0);
-  }
-  for (var i = 0; i < navs.length; i++) {
-    navs[i].addEventListener('click', function() { switchTab(this.getAttribute('data-tab')); });
-  }
+      const PRESETS = {
+        standard: { revenue: 1000000, price: 100000, cvr: 20, cpl: 4000, cogs: 16, fixed: 0 },
+        saas: { revenue: 3000000, price: 50000, cvr: 25, cpl: 6000, cogs: 12, fixed: 800000 },
+        dev: { revenue: 5000000, price: 1250000, cvr: 30, cpl: 15000, cogs: 42, fixed: 600000 },
+        consulting: { revenue: 2400000, price: 400000, cvr: 35, cpl: 10000, cogs: 10, fixed: 300000 }
+      };
 
-  function cKpi() {
-    var r = +g('iRev').value, p = +g('iPri').value, cv = +g('iCvr').value / 100, cp = +g('iCpl').value, cr = +g('iCos').value / 100;
-    g('lRev').textContent = y(r); g('lPri').textContent = y(p); g('lCvr').textContent = Math.round(cv*100)+'%'; g('lCpl').textContent = y(cp); g('lCos').textContent = Math.round(cr*100)+'%';
-    var d = Math.ceil(r / p), ld = Math.ceil(d / cv), ad = ld * cp, cpa = d > 0 ? ad / d : 0, net = r - ad - (r * cr), mg = r > 0 ? (net / r) * 100 : 0;
-    var el = g('kNet'); el.textContent = (net < 0 ? '-' : '') + y(Math.abs(net)); el.className = net < 0 ? 'hval neg' : 'hval';
-    g('kMar').textContent = '営業利益率: ' + mg.toFixed(1) + '%';
-    g('kRoi').textContent = ad > 0 ? '広告ROAS: ' + Math.round((r/ad)*100) + '%' : '広告費ゼロ運営';
-    g('kBar').style.width = Math.max(0, Math.min(100, mg)) + '%';
-    g('kDeal').textContent = d.toLocaleString() + '件 / 月';
-    g('kLead').textContent = ld.toLocaleString() + '件 / 月';
-    g('kCpa').textContent = y(cpa);
-    g('kAd').textContent = y(ad);
-  }
-  ['iRev','iPri','iCvr','iCpl','iCos'].forEach(function(id) { g(id).addEventListener('input', cKpi); });
+      const state = {
+        activeView: 'kpi',
+        currency: 'JPY',
+        plan: 'STARTER', // STARTER | PRO | ENTERPRISE
+        annualBilling: true,
+        kpi: { ...PRESETS.standard },
+        quote: {
+          client: '株式会社サンプル商事',
+          project: 'AI業務自動化・Webシステム構築支援',
+          hours: 25,
+          rate: 5000,
+          cost: 30000,
+          margin: 35,
+          issuer: 'BizProfit Cloud Enterprise',
+          invoiceNo: 'T1010001234567'
+        },
+        ltv: { acq: 10, mrr: 4980, ret: 90 },
+        disc: { margin: 50, rate: 20 },
+        ledgerFilter: 'all',
+        ledgerSearch: '',
+        ledger: []
+      };
 
-  function cEst() {
-    var h = +g('eHr').value || 0, rt = +g('eRt').value || 0, cs = +g('eCs').value || 0, mg = (+g('eMg').value || 0) / 100;
-    var brk = (h * rt) + cs, sub = mg < 0.95 ? brk / (1 - mg) : brk * 2, tot = sub * 1.1;
-    g('eBrk').textContent = y(brk); g('eRec').textContent = y(tot);
-    return { sub: sub, tax: sub * 0.1, tot: tot };
-  }
-  ['eHr','eRt','eCs','eMg'].forEach(function(id) { g(id).addEventListener('input', cEst); });
+      let plChart = null;
+      let ltvChart = null;
+      let discChart = null;
 
-  g('btnMkInv').addEventListener('click', function() {
-    var c = cEst(), cli = g('eCli').value || '御中', prj = g('ePrj').value || '業務委託費', d = new Date();
-    g('pDate').textContent = '発行日: ' + d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
-    g('pCli').textContent = cli + ' 御中'; g('pPrj').textContent = prj;
-    g('pSub').textContent = y(c.sub); g('pTax').textContent = y(c.tax); g('pTot').textContent = y(c.tot) + '-';
-    g('invBox').style.display = 'block';
-    sLog('御見積書: ' + cli);
-  });
+      // Safe localStorage helpers
+      function loadPersistedState() {
+        try {
+          const savedLedger = localStorage.getItem('bizprofit_ent_ledger_v2');
+          if (savedLedger) {
+            const parsed = JSON.parse(savedLedger);
+            if (Array.isArray(parsed)) state.ledger = parsed;
+          }
+          const savedPlan = localStorage.getItem('bizprofit_ent_plan_v2');
+          if (savedPlan && ['STARTER', 'PRO', 'ENTERPRISE'].includes(savedPlan)) {
+            state.plan = savedPlan;
+          }
+        } catch (e) {
+          // Ignore storage errors in sandboxed contexts
+        }
+      }
 
-  function cLtv() {
-    var u = +g('iSu').value, p = +g('iSp').value, rt = +g('iSr').value / 100;
-    g('lSu').textContent = u + ' / mo'; g('lSp').textContent = y(p); g('lSr').textContent = Math.round(rt*100)+'%';
-    var one = (u * 12) * (p * 3), act = 0, sub = 0;
-    for (var m = 1; m <= 12; m++) { act = act * rt + u; sub += act * p; }
-    var mx = Math.max(one, sub, 1);
-    g('vOne').textContent = y(one); g('vSub').textContent = y(sub);
-    g('bOne').style.width = Math.round((one/mx)*100)+'%'; g('bSub').style.width = Math.round((sub/mx)*100)+'%';
-    var df = sub - one;
-    g('ltvMsg').textContent = df >= 0 ? 'サブスク継続で1年累積売上が +' + y(df) + ' 増加します。' : '継続率や単価を上げると単発売りを上回ります。';
-  }
-  ['iSu','iSp','iSr'].forEach(function(id) { g(id).addEventListener('input', cLtv); });
+      function persistState() {
+        try {
+          localStorage.setItem('bizprofit_ent_ledger_v2', JSON.stringify(state.ledger));
+          localStorage.setItem('bizprofit_ent_plan_v2', state.plan);
+        } catch (e) {
+          // Ignore storage errors
+        }
+      }
 
-  function cDsc() {
-    var m = +g('iOm').value / 100, d = +g('iDr').value / 100;
-    g('lOm').textContent = Math.round(m*100)+'%'; g('lDr').textContent = Math.round(d*100)+'% OFF';
-    g('dRes').textContent = m <= d ? '赤字転落（値引きしすぎです）' : '販売数を +' + Math.round((d/(m-d))*100) + '% 増やす必要あり';
-  }
-  ['iOm','iDr'].forEach(function(id) { g(id).addEventListener('input', cDsc); });
+      // =========================================================
+      // 2. Formatting & Utilities
+      // =========================================================
+      function fmtMoney(jpyAmount, showPlus = false) {
+        const cfg = CURRENCIES[state.currency] || CURRENCIES.JPY;
+        const converted = Math.round((Number(jpyAmount) || 0) * cfg.rate);
+        const absStr = Math.abs(converted).toLocaleString('ja-JP');
+        if (converted < 0) return '-' + cfg.symbol + absStr;
+        if (showPlus && converted > 0) return '+' + cfg.symbol + absStr;
+        return cfg.symbol + absStr;
+      }
 
-  function sLog(lbl) {
-    try {
-      var l = JSON.parse(localStorage.getItem('bp_log') || '[]');
-      l.unshift({ t: lbl, d: '純利益 ' + g('kNet').textContent + ' / 見積 ' + g('eRec').textContent });
-      localStorage.setItem('bp_log', JSON.stringify(l.slice(0, 8)));
-      rLog();
-      if (lbl.indexOf('KPI') !== -1) alert('経営台帳に保存しました！');
-    } catch (e) {}
-  }
-  function rLog() {
-    try {
-      var l = JSON.parse(localStorage.getItem('bp_log') || '[]'), b = g('logBox');
-      b.innerHTML = l.length ? l.map(function(x) { return '<div class="log"><b style="color:var(--navy);">' + x.t + '</b><div style="color:var(--sub);margin-top:2px;">' + x.d + '</div></div>'; }).join('') : '保存データはまだありません。';
-    } catch (e) {}
-  }
-  g('btnSaveKpi').addEventListener('click', function() { sLog('KPI事業計画'); });
-  g('btnClrLog').addEventListener('click', function() { localStorage.removeItem('bp_log'); rLog(); });
-  g('btnCpRep').addEventListener('click', function() {
-    var t = '【BizProfit Cloud Report】\nNet Profit: ' + g('kNet').textContent + '\nEstimate: ' + g('eRec').textContent + '\nSubscription 1Yr: ' + g('vSub').textContent;
-    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function() { alert('レポートをコピーしました！'); });
-  });
+      function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        const colors = type === 'error'
+          ? 'bg-rose-950 text-rose-100 border-rose-800'
+          : type === 'info'
+          ? 'bg-slate-900 text-slate-100 border-slate-700'
+          : 'bg-obsidian-900 text-white border-indigo-500/40';
+        toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-elevated text-xs font-medium flex items-center gap-2.5 max-w-sm ${colors}`;
+        toast.innerHTML = `<span class="w-2 h-2 rounded-full ${type === 'error' ? 'bg-rose-400' : 'bg-emerald-400'} shrink-0"></span><span>${escapeHtml(message)}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transition = 'opacity 0.25s ease';
+          setTimeout(() => toast.remove(), 260);
+        }, 3000);
+      }
 
-  g('btnSelectFree').addEventListener('click', function() {
-    localStorage.removeItem('bp_vip');
-    g('topBadge').textContent = 'STARTER';
-    g('topBadge').classList.remove('vip');
-    g('freeStatus').textContent = '選択中';
-    alert('STARTER（無料プラン）を選択しました。すぐにすべての基本機能をご利用いただけます。');
-    switchTab('t1');
-  });
-  var URL_JP = "https://note.com/my_yuto0215/n/n3fab1011405d?sub_rt=share_pw";
-  var URL_EN = "https://note.com/my_yuto0215/n/nfb57eebf986d?sub_rt=share_pw";
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
 
-  g('btnBuyPro').addEventListener('click', function() {
-    var targetUrl = (currs[cIdx].code === 'JPY') ? URL_JP : URL_EN;
-    if (targetUrl && targetUrl.indexOf('http') === 0) {
-      window.open(targetUrl, '_blank');
-    } else {
-      window.open(URL_JP, '_blank');
-    }
-  });
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => {
+            showToast('経営レポートをクリップボードにコピーしました');
+          }).catch(() => fallbackCopy(text));
+        } else {
+          fallbackCopy(text);
+        }
+      }
 
+      function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast('経営レポートをクリップボードにコピーしました');
+        } catch (e) {
+          showToast('コピーに失敗しました', 'error');
+        }
+        ta.remove();
+      }
 
-  function applyVip() {
-    g('topBadge').textContent = 'PRO';
-    g('topBadge').classList.add('vip');
-    g('freeStatus').textContent = '無料プラン';
-  }
-  if (localStorage.getItem('bp_vip') === '1') applyVip();
+      // Modal Helpers
+      function openModal({ title, subtitle, bodyHtml, actions }) {
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-subtitle').textContent = subtitle || '';
+        document.getElementById('modal-body').innerHTML = bodyHtml;
+        const actionsEl = document.getElementById('modal-actions');
+        actionsEl.innerHTML = '';
+        actions.forEach((act) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = act.label;
+          btn.className = act.primary
+            ? 'px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition-colors'
+            : act.danger
+            ? 'px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold transition-colors'
+            : 'px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition-colors';
+          btn.addEventListener('click', () => {
+            if (act.onClick) act.onClick();
+            closeModal();
+          });
+          actionsEl.appendChild(btn);
+        });
+        const modal = document.getElementById('app-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
 
-  g('btnUnlock').addEventListener('click', function() {
-    var code = g('inLicense').value.trim().toUpperCase();
-    if (code === 'PRO-2026-VIP' || code.indexOf('VIP') !== -1) {
-      localStorage.setItem('bp_vip', '1');
-      applyVip();
-      alert('ライセンス認証が完了し、BUSINESS PRO プランが有効化されました。');
-    } else {
-      alert('無効なライセンスキーです。（デモ用キー: PRO-2026-VIP）');
-    }
-  });
+      function closeModal() {
+        const modal = document.getElementById('app-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
 
-  cKpi(); cEst(); cLtv(); cDsc(); rLog();
-});
-</script>
+      // =========================================================
+      // 3. Calculations & Renderers
+      // =========================================================
+      function computeKpi() {
+        const rev = Math.max(0, Number(state.kpi.revenue) || 0);
+        const price = Math.max(1, Number(state.kpi.price) || 1);
+        const cvr = Math.max(1, Math.min(100, Number(state.kpi.cvr) || 1)) / 100;
+        const cpl = Math.max(0, Number(state.kpi.cpl) || 0);
+        const cogsRate = Math.max(0, Math.min(99, Number(state.kpi.cogs) || 0)) / 100;
+        const fixed = Math.max(0, Number(state.kpi.fixed) || 0);
+
+        const deals = rev / price;
+        const leads = deals / cvr;
+        const cpa = cpl / cvr;
+        const adBudget = leads * cpl;
+        const cogsAmount = rev * cogsRate;
+        const netProfit = rev - cogsAmount - adBudget - fixed;
+        const marginRate = rev > 0 ? (netProfit / rev) * 100 : 0;
+        const roas = adBudget > 0 ? (rev / adBudget) * 100 : 0;
+        const contribMargin = (1 - cogsRate) * 100;
+        const maxCpa = price * (1 - cogsRate);
+
+        return { rev, price, cvr, cpl, cogsRate, fixed, deals, leads, cpa, adBudget, cogsAmount, netProfit, marginRate, roas, contribMargin, maxCpa };
+      }
+
+      function renderKpi() {
+        const m = computeKpi();
+
+        document.getElementById('kpi-net-profit').textContent = fmtMoney(m.netProfit);
+        document.getElementById('kpi-annual-profit').textContent = fmtMoney(m.netProfit * 12);
+        document.getElementById('kpi-margin-rate').textContent = m.marginRate.toFixed(1) + '%';
+        document.getElementById('kpi-margin-rate').className = 'font-mono font-semibold tabular-nums ' + (m.marginRate >= 25 ? 'text-emerald-400' : m.marginRate >= 0 ? 'text-amber-300' : 'text-rose-400');
+
+        const barWidth = Math.max(0, Math.min(100, m.marginRate));
+        const barEl = document.getElementById('kpi-margin-bar');
+        barEl.style.width = barWidth + '%';
+        barEl.className = 'h-full rounded-full transition-all duration-300 ' + (m.marginRate < 0 ? 'bg-rose-500' : m.marginRate < 20 ? 'bg-amber-400' : 'bg-gradient-to-r from-indigo-500 to-emerald-400');
+
+        document.getElementById('kpi-roas').textContent = m.adBudget > 0 ? Math.round(m.roas).toLocaleString('ja-JP') + '%' : '∞';
+        document.getElementById('kpi-contrib-margin').textContent = m.contribMargin.toFixed(1) + '%';
+        document.getElementById('kpi-max-cpa').textContent = fmtMoney(m.maxCpa);
+
+        document.getElementById('kpi-deals').innerHTML = `${Math.ceil(m.deals).toLocaleString('ja-JP')}<span class="text-sm font-sans font-medium text-slate-500 ml-1">件 / 月</span>`;
+        document.getElementById('kpi-leads').innerHTML = `${Math.ceil(m.leads).toLocaleString('ja-JP')}<span class="text-sm font-sans font-medium text-slate-500 ml-1">件 / 月</span>`;
+        document.getElementById('kpi-cvr-hint').textContent = Math.round(m.cvr * 100) + '%';
+        document.getElementById('kpi-cpa').textContent = fmtMoney(m.cpa);
+        document.getElementById('kpi-cpa-ratio').textContent = ((m.cpa / m.price) * 100).toFixed(1) + '%';
+        document.getElementById('kpi-ad-budget').textContent = fmtMoney(m.adBudget);
+        document.getElementById('kpi-ad-ratio').textContent = m.rev > 0 ? ((m.adBudget / m.rev) * 100).toFixed(1) + '%' : '0.0%';
+
+        // Health badge & CFO diagnostic text
+        const badge = document.getElementById('kpi-health-badge');
+        const cfoText = document.getElementById('kpi-cfo-text');
+        if (m.netProfit < 0) {
+          badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap shrink-0 bg-rose-500/20 text-rose-300 border border-rose-400/30';
+          badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> 赤字リスク警告';
+          cfoText.textContent = `現在の設定では月間 ${fmtMoney(Math.abs(m.netProfit))} の営業赤字が発生します。成約率の改善、契約単価の引き上げ、またはCPLの削減でCPAを上限（${fmtMoney(m.maxCpa)}）未満に抑えてください。`;
+        } else if (m.marginRate < 20) {
+          badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap shrink-0 bg-amber-500/20 text-amber-300 border border-amber-400/30';
+          badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> 利益率改善余地あり';
+          cfoText.textContent = `営業利益率は ${m.marginRate.toFixed(1)}% です。広告獲得単価の変動に耐えるため、単価見直しや原価圧縮で利益率25%以上を目指す設計が推奨されます。`;
+        } else {
+          badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold whitespace-nowrap shrink-0 bg-emerald-500/15 text-emerald-300 border border-emerald-400/30';
+          badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 優良収益モデル';
+          cfoText.textContent = `ROAS ${m.adBudget > 0 ? Math.round(m.roas) + '%' : '無限大'}・営業利益率 ${m.marginRate.toFixed(1)}% と極めて健全なユニットエコノミクスです。CPAの上限（損益分岐ライン）は ${fmtMoney(m.maxCpa)} のため、広告投下を拡大してスケールする余地があります。`;
+        }
+
+        // P&L Breakdown Ledger
+        document.getElementById('pl-rev').textContent = fmtMoney(m.rev);
+        document.getElementById('pl-cogs').textContent = '-' + fmtMoney(m.cogsAmount);
+        document.getElementById('pl-ad').textContent = '-' + fmtMoney(m.adBudget);
+        document.getElementById('pl-fixed').textContent = m.fixed > 0 ? '-' + fmtMoney(m.fixed) : fmtMoney(0);
+        const plNetEl = document.getElementById('pl-net');
+        plNetEl.textContent = fmtMoney(m.netProfit);
+        plNetEl.className = 'font-mono tabular-nums ' + (m.netProfit >= 0 ? 'text-emerald-600' : 'text-rose-600');
+
+        updatePlChart(m);
+      }
+
+      function updatePlChart(m) {
+        const ctx = document.getElementById('kpi-pl-chart');
+        if (!ctx || typeof Chart === 'undefined') return;
+        const rate = CURRENCIES[state.currency].rate;
+        const dataVals = [
+          Math.round(m.rev * rate),
+          Math.round(m.cogsAmount * rate),
+          Math.round(m.adBudget * rate),
+          Math.round(m.fixed * rate),
+          Math.round(m.netProfit * rate)
+        ];
+
+        if (!plChart) {
+          plChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['目標売上', '原価・外注', '広告費', '固定費', '純利益'],
+              datasets: [{
+                data: dataVals,
+                backgroundColor: ['#0F172A', '#F59E0B', '#4F46E5', '#94A3B8', m.netProfit >= 0 ? '#10B981' : '#E11D48'],
+                borderRadius: 6,
+                barPercentage: 0.58
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: (c) => CURRENCIES[state.currency].symbol + Number(c.raw).toLocaleString('ja-JP')
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  grid: { color: '#F1F5F9' },
+                  ticks: {
+                    font: { family: 'Inter, -apple-system, sans-serif', size: 11 },
+                    color: '#64748B',
+                    callback: (v) => CURRENCIES[state.currency].symbol + Number(v).toLocaleString('ja-JP')
+                  }
+                },
+                x: {
+                  grid: { display: false },
+                  ticks: { font: { size: 11, weight: '600' }, color: '#334155' }
+                }
+              }
+            }
+          });
+        } else {
+          plChart.data.datasets[0].data = dataVals;
+          plChart.data.datasets[0].backgroundColor[4] = m.netProfit >= 0 ? '#10B981' : '#E11D48';
+          plChart.update('none');
+        }
+      }
+
+      // Quote Engine
+      function computeQuote() {
+        const hours = Math.max(0, Number(state.quote.hours) || 0);
+        const rate = Math.max(0, Number(state.quote.rate) || 0);
+        const outsource = Math.max(0, Number(state.quote.cost) || 0);
+        const marginPct = Math.max(0, Math.min(85, Number(state.quote.margin) || 0));
+
+        const laborCost = hours * rate;
+        const floor = laborCost + outsource;
+        const subtotal = marginPct < 100 ? Math.round(floor / (1 - marginPct / 100)) : floor;
+        const profit = subtotal - floor;
+        const tax = Math.round(subtotal * 0.10);
+        const total = subtotal + tax;
+
+        return { hours, rate, laborCost, outsource, floor, marginPct, subtotal, profit, tax, total };
+      }
+
+      function renderQuote() {
+        const q = computeQuote();
+        document.getElementById('q-floor-val').textContent = fmtMoney(q.floor);
+        document.getElementById('q-profit-val').textContent = fmtMoney(q.profit);
+        document.getElementById('q-total-val').textContent = fmtMoney(q.total);
+
+        const denom = Math.max(1, q.subtotal);
+        document.getElementById('q-bar-labor').style.width = ((q.laborCost / denom) * 100).toFixed(1) + '%';
+        document.getElementById('q-bar-outsource').style.width = ((q.outsource / denom) * 100).toFixed(1) + '%';
+        document.getElementById('q-bar-profit').style.width = ((q.profit / denom) * 100).toFixed(1) + '%';
+
+        // Document preview fields
+        const now = new Date();
+        const dateStr = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
+        const quoteSeq = String(state.ledger.filter((x) => x.type === 'quote').length + 1).padStart(3, '0');
+        document.getElementById('doc-number').textContent = `BP-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}-${quoteSeq}`;
+        document.getElementById('doc-date').textContent = dateStr;
+        document.getElementById('doc-client').textContent = state.quote.client || '御社名未設定';
+        document.getElementById('doc-project').textContent = state.quote.project || '案件名未設定';
+        document.getElementById('doc-hours-meta').textContent = q.hours;
+        document.getElementById('doc-issuer').textContent = state.quote.issuer || 'BizProfit Cloud Enterprise';
+        document.getElementById('doc-invoice-no').textContent = state.quote.invoiceNo || 'T1010001234567';
+
+        document.getElementById('doc-grand-total').textContent = fmtMoney(q.total);
+        document.getElementById('doc-subtotal-row').textContent = fmtMoney(q.subtotal);
+        document.getElementById('doc-subtotal').textContent = fmtMoney(q.subtotal);
+        document.getElementById('doc-tax').textContent = fmtMoney(q.tax);
+        document.getElementById('doc-total-footer').textContent = fmtMoney(q.total);
+      }
+
+      // LTV & Discount Simulator
+      function renderLtv() {
+        const acq = Math.max(1, Number(state.ltv.acq) || 1);
+        const mrr = Math.max(100, Number(state.ltv.mrr) || 100);
+        const ret = Math.max(1, Math.min(99, Number(state.ltv.ret) || 90)) / 100;
+
+        document.getElementById('ltv-acq-val').textContent = `${acq} 件 / 月`;
+        document.getElementById('ltv-mrr-val').textContent = fmtMoney(mrr);
+        document.getElementById('ltv-ret-val').textContent = `${Math.round(ret * 100)}%`;
+
+        // 12-month simulation (One-time modeled as 3x monthly unit price, matching original 10*4980*3*12 = 1,792,800)
+        const oneTimePerMonth = acq * mrr * 3;
+        const oneTimeSeries = [];
+        const subSeries = [];
+        let activeCustomers = 0;
+        let cumOneTime = 0;
+        let cumSub = 0;
+        let m12Mrr = 0;
+
+        for (let month = 1; month <= 12; month++) {
+          activeCustomers = activeCustomers * ret + acq;
+          const monthlySubRev = activeCustomers * mrr;
+          if (month === 12) m12Mrr = monthlySubRev;
+          cumOneTime += oneTimePerMonth;
+          cumSub += monthlySubRev;
+          oneTimeSeries.push(Math.round(cumOneTime));
+          subSeries.push(Math.round(cumSub));
+        }
+
+        const diff = Math.round(cumSub - cumOneTime);
+        const churn = 1 - ret;
+        const avgLife = 1 / churn;
+        const ltvPerCust = mrr * avgLife;
+        const arr = m12Mrr * 12;
+
+        document.getElementById('ltv-onetime-total').textContent = fmtMoney(cumOneTime);
+        document.getElementById('ltv-sub-total').textContent = fmtMoney(cumSub);
+        document.getElementById('ltv-m12-mrr').textContent = fmtMoney(m12Mrr);
+        document.getElementById('ltv-per-cust').textContent = fmtMoney(ltvPerCust);
+        document.getElementById('ltv-avg-life').textContent = avgLife.toFixed(1) + 'ヶ月';
+        document.getElementById('ltv-arr').textContent = fmtMoney(arr);
+
+        const pill = document.getElementById('ltv-lift-pill');
+        pill.textContent = `${fmtMoney(diff, true)} ${diff >= 0 ? '増収効果' : '差異'}`;
+        pill.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold font-mono tabular-nums border ' +
+          (diff >= 0 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200');
+
+        document.getElementById('ltv-summary-note').innerHTML = diff >= 0
+          ? `サブスク継続モデルにより、1年間の累積売上が単発販売と比較して <strong class="text-emerald-700 font-mono">${fmtMoney(diff, true)}</strong> 増加します。12ヶ月時点のストック売上ペース（ARR）は <strong class="text-slate-900 font-mono">${fmtMoney(arr)}</strong> に達します。`
+          : `現在の継続率では1年累積で単発販売が <strong class="text-amber-700 font-mono">${fmtMoney(Math.abs(diff))}</strong> 上回ります。継続率を高めるオンボーディング強化が有効です。`;
+
+        updateLtvChart(oneTimeSeries, subSeries);
+      }
+
+      function updateLtvChart(oneTimeSeries, subSeries) {
+        const ctx = document.getElementById('ltv-curve-chart');
+        if (!ctx || typeof Chart === 'undefined') return;
+        const rate = CURRENCIES[state.currency].rate;
+        const labels = Array.from({ length: 12 }, (_, i) => `${i + 1}ヶ月`);
+        const s1 = oneTimeSeries.map((v) => Math.round(v * rate));
+        const s2 = subSeries.map((v) => Math.round(v * rate));
+
+        if (!ltvChart) {
+          ltvChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels,
+              datasets: [
+                {
+                  label: 'サブスク継続（累積）',
+                  data: s2,
+                  borderColor: '#4F46E5',
+                  backgroundColor: 'rgba(79, 70, 229, 0.12)',
+                  fill: true,
+                  tension: 0.32,
+                  borderWidth: 2.5,
+                  pointRadius: 3
+                },
+                {
+                  label: '単発販売（累積）',
+                  data: s1,
+                  borderColor: '#94A3B8',
+                  borderDash: [5, 5],
+                  fill: false,
+                  tension: 0.1,
+                  borderWidth: 2,
+                  pointRadius: 2
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: 'top', align: 'end', labels: { boxWidth: 12, font: { size: 11 } } },
+                tooltip: {
+                  callbacks: {
+                    label: (c) => `${c.dataset.label}: ${CURRENCIES[state.currency].symbol}${Number(c.raw).toLocaleString('ja-JP')}`
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  grid: { color: '#F1F5F9' },
+                  ticks: {
+                    font: { family: 'Inter, -apple-system, sans-serif', size: 11 },
+                    color: '#64748B',
+                    callback: (v) => CURRENCIES[state.currency].symbol + Number(v).toLocaleString('ja-JP')
+                  }
+                },
+                x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#64748B' } }
+              }
+            }
+          });
+        } else {
+          ltvChart.data.datasets[0].data = s2;
+          ltvChart.data.datasets[1].data = s1;
+          ltvChart.update('none');
+        }
+      }
+
+      function renderDiscount() {
+        const margin = Math.max(1, Number(state.disc.margin) || 50);
+        const disc = Math.max(1, Number(state.disc.rate) || 20);
+
+        document.getElementById('disc-margin-val').textContent = `${margin}%`;
+        document.getElementById('disc-rate-val').textContent = `${disc}% OFF`;
+
+        const reqEl = document.getElementById('disc-req-increase');
+        const subEl = document.getElementById('disc-req-sub');
+
+        if (disc >= margin) {
+          reqEl.textContent = '赤字転落（回復不可）';
+          reqEl.className = 'text-2xl font-bold font-mono text-rose-400 mt-2';
+          subEl.textContent = `割引率（${disc}%）が元の粗利率（${margin}%）以上となるため、販売数をどれだけ増やしても利益は残りません。`;
+        } else {
+          const reqPct = Math.round((disc / (margin - disc)) * 100);
+          const mult = (1 + disc / (margin - disc)).toFixed(2);
+          reqEl.textContent = `+${reqPct}%`;
+          reqEl.className = 'text-3xl font-bold font-mono text-amber-400 mt-2 tabular-nums';
+          subEl.innerHTML = `販売数量を <strong class="text-white font-mono">${mult}倍（+${reqPct}%）</strong> に増やさない限り、割引前より粗利総額が減少します。`;
+        }
+
+        // Sensitivity bar chart across 5% to 35% discount
+        const steps = [5, 10, 15, 20, 25, 30];
+        const vals = steps.map((d) => (d >= margin ? 300 : Math.min(300, Math.round((d / (margin - d)) * 100))));
+        const colors = steps.map((d) => (d >= margin ? '#E11D48' : d === disc ? '#4F46E5' : '#CBD5E1'));
+
+        const ctx = document.getElementById('disc-bar-chart');
+        if (!ctx || typeof Chart === 'undefined') return;
+        if (!discChart) {
+          discChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: steps.map((d) => `${d}% OFF`),
+              datasets: [{
+                label: '必要販売増加率 (%)',
+                data: vals,
+                backgroundColor: colors,
+                borderRadius: 6,
+                barPercentage: 0.55
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: (c) => {
+                      const d = steps[c.dataIndex];
+                      return d >= margin ? '利益消滅（赤字ライン）' : `必要販売増: +${c.raw}%`;
+                    }
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  grid: { color: '#F1F5F9' },
+                  ticks: {
+                    font: { family: 'Inter, -apple-system, sans-serif', size: 11 },
+                    color: '#64748B',
+                    callback: (v) => `+${v}%`
+                  }
+                },
+                x: { grid: { display: false }, ticks: { font: { size: 11, weight: '600' }, color: '#334155' } }
+              }
+            }
+          });
+        } else {
+          discChart.data.datasets[0].data = vals;
+          discChart.data.datasets[0].backgroundColor = colors;
+          discChart.update('none');
+        }
+      }
+
+      // Ledger Renderer
+      function renderLedger() {
+        const badge = document.getElementById('ledger-count-badge');
+        badge.textContent = String(state.ledger.length);
+        document.getElementById('ledger-stat-count').textContent = `${state.ledger.length} 件`;
+
+        const quoteSum = state.ledger.filter((x) => x.type === 'quote').reduce((acc, x) => acc + (x.total || 0), 0);
+        document.getElementById('ledger-stat-quotes').textContent = fmtMoney(quoteSum);
+
+        const latestKpi = state.ledger.find((x) => x.type === 'kpi');
+        document.getElementById('ledger-stat-profit').textContent = latestKpi ? fmtMoney(latestKpi.netProfit) : fmtMoney(0);
+
+        const container = document.getElementById('ledger-list-container');
+        const query = state.ledgerSearch.trim().toLowerCase();
+        const filtered = state.ledger.filter((item) => {
+          if (state.ledgerFilter !== 'all' && item.type !== state.ledgerFilter) return false;
+          if (query && !(`${item.title} ${item.subtitle}`).toLowerCase().includes(query)) return false;
+          return true;
+        });
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div class="p-10 text-center space-y-3">
+              <div class="w-11 h-11 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+                <i data-lucide="folder-open" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-slate-800">${state.ledger.length === 0 ? 'まだ経営台帳に保存されたデータがありません' : '条件に一致するレコードがありません'}</p>
+                <p class="text-xs text-slate-500 mt-1">KPI逆算シミュレーションや御見積書を保存すると、ここに履歴が蓄積されます。</p>
+              </div>
+              ${state.ledger.length === 0 ? `
+                <div class="pt-2 flex flex-wrap items-center justify-center gap-2">
+                  <button type="button" id="empty-save-kpi-btn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition-colors">現在のKPI計画を今すぐ保存</button>
+                  <button type="button" id="empty-go-quote-btn" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition-colors">御見積書を作成する</button>
+                </div>
+              ` : ''}
+            </div>
+          `;
+          if (window.lucide) lucide.createIcons();
+          const saveNowBtn = document.getElementById('empty-save-kpi-btn');
+          if (saveNowBtn) saveNowBtn.addEventListener('click', saveCurrentKpi);
+          const goQuoteBtn = document.getElementById('empty-go-quote-btn');
+          if (goQuoteBtn) goQuoteBtn.addEventListener('click', () => switchView('quote'));
+          return;
+        }
+
+        container.innerHTML = filtered.map((item) => {
+          const isQuote = item.type === 'quote';
+          const pill = isQuote
+            ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/70">御見積書</span>'
+            : '<span class="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/70">KPI計画</span>';
+          const mainValue = isQuote ? fmtMoney(item.total) : fmtMoney(item.netProfit);
+          const mainLabel = isQuote ? '御見積額(税込)' : '想定月間純利益';
+          return `
+            <div class="p-4 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition-colors">
+              <div class="min-w-0 space-y-1">
+                <div class="flex items-center gap-2">
+                  ${pill}
+                  <span class="text-xs font-bold text-slate-900 truncate">${escapeHtml(item.title)}</span>
+                </div>
+                <p class="text-[11px] text-slate-500 truncate">${escapeHtml(item.subtitle)} ・ <span class="font-mono">${escapeHtml(item.createdAt)}</span></p>
+              </div>
+              <div class="flex items-center justify-between sm:justify-end gap-4 shrink-0">
+                <div class="text-right">
+                  <p class="text-[10px] text-slate-400">${mainLabel}</p>
+                  <p class="text-sm font-bold font-mono text-slate-900 tabular-nums">${mainValue}</p>
+                </div>
+                <div class="flex items-center gap-1">
+                  <button type="button" data-reload-id="${escapeHtml(item.id)}" class="p-2 rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 transition-colors" title="シミュレーターへ再読込">
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                  </button>
+                  <button type="button" data-delete-id="${escapeHtml(item.id)}" class="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors" title="削除">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        if (window.lucide) lucide.createIcons();
+
+        container.querySelectorAll('[data-delete-id]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-delete-id');
+            state.ledger = state.ledger.filter((x) => x.id !== id);
+            persistState();
+            renderLedger();
+            showToast('レコードを削除しました', 'info');
+          });
+        });
+
+        container.querySelectorAll('[data-reload-id]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-reload-id');
+            const rec = state.ledger.find((x) => x.id === id);
+            if (!rec) return;
+            if (rec.type === 'kpi' && rec.snapshot) {
+              state.kpi = { ...rec.snapshot };
+              syncKpiInputsFromState();
+              renderKpi();
+              switchView('kpi');
+              showToast('KPI計画をシミュレーターへ復元しました');
+            } else if (rec.type === 'quote' && rec.snapshot) {
+              state.quote = { ...rec.snapshot };
+              syncQuoteInputsFromState();
+              renderQuote();
+              switchView('quote');
+              showToast('御見積書データをエディタへ復元しました');
+            }
+          });
+        });
+      }
+
+      // Pricing & Plan Status Renderer
+      function renderPlanStatus() {
+        const pill = document.getElementById('sidebar-plan-pill');
+        const headerLabel = document.getElementById('header-plan-label');
+        const headerDot = document.getElementById('header-plan-dot');
+        const upgradeCard = document.getElementById('sidebar-upgrade-card');
+
+        const map = {
+          STARTER: { label: 'STARTER', pillClass: 'bg-slate-700/80 text-slate-200 border-slate-600/60', dot: 'bg-slate-400' },
+          PRO: { label: 'BUSINESS PRO', pillClass: 'bg-indigo-500/25 text-indigo-200 border-indigo-400/40', dot: 'bg-indigo-500' },
+          ENTERPRISE: { label: 'ENTERPRISE', pillClass: 'bg-emerald-500/25 text-emerald-200 border-emerald-400/40', dot: 'bg-emerald-500' }
+        };
+        const cfg = map[state.plan] || map.STARTER;
+        pill.textContent = cfg.label;
+        pill.className = 'shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full border ' + cfg.pillClass;
+        headerLabel.textContent = cfg.label;
+        headerDot.className = 'w-2 h-2 rounded-full ' + cfg.dot;
+        upgradeCard.classList.toggle('hidden', state.plan !== 'STARTER');
+
+        document.getElementById('badge-starter').classList.toggle('hidden', state.plan !== 'STARTER');
+        document.getElementById('badge-pro').classList.toggle('hidden', state.plan !== 'PRO');
+        document.getElementById('badge-ent').classList.toggle('hidden', state.plan !== 'ENTERPRISE');
+
+        // Pricing numbers
+        const proMonthly = state.annualBilling ? 3980 : 4980;
+        const entMonthly = state.annualBilling ? 24800 : 29800;
+        document.getElementById('price-starter').textContent = fmtMoney(0);
+        document.getElementById('price-pro').textContent = fmtMoney(proMonthly);
+        document.getElementById('price-pro-sub').textContent = state.annualBilling
+          ? `年払い一括 ${fmtMoney(proMonthly * 12)}（月払い ${fmtMoney(4980)}）`
+          : `年払いに変更すると年間 ${fmtMoney(12000)} お得になります`;
+        document.getElementById('price-ent').textContent = fmtMoney(entMonthly);
+      }
+
+      function renderAll() {
+        document.querySelectorAll('.currency-symbol').forEach((el) => {
+          el.textContent = CURRENCIES[state.currency].symbol;
+        });
+        renderKpi();
+        renderQuote();
+        renderLtv();
+        renderDiscount();
+        renderLedger();
+        renderPlanStatus();
+      }
+
+      // =========================================================
+      // 4. Actions & Navigation
+      // =========================================================
+      function switchView(viewId) {
+        if (!VIEW_META[viewId]) return;
+        state.activeView = viewId;
+        document.querySelectorAll('.view-panel').forEach((sec) => {
+          sec.classList.toggle('active', sec.id === 'view-' + viewId);
+        });
+        document.querySelectorAll('.nav-item').forEach((btn) => {
+          const isCurrent = btn.getAttribute('data-nav') === viewId;
+          btn.className = 'nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors border ' +
+            (isCurrent
+              ? 'bg-indigo-600/15 text-white border-indigo-500/30'
+              : 'text-slate-400 hover:text-white hover:bg-slate-800/70 border-transparent');
+          const icon = btn.querySelector('svg');
+          if (icon) {
+            icon.classList.toggle('text-indigo-400', isCurrent);
+          }
+        });
+        document.getElementById('header-breadcrumb').textContent = VIEW_META[viewId].breadcrumb;
+        document.getElementById('header-title').textContent = VIEW_META[viewId].title;
+        closeMobileSidebar();
+
+        // Trigger chart resize cleanly after view becomes visible
+        setTimeout(() => {
+          if (viewId === 'kpi' && plChart) plChart.resize();
+          if (viewId === 'ltv') {
+            if (ltvChart) ltvChart.resize();
+            if (discChart) discChart.resize();
+          }
+        }, 50);
+      }
+
+      function saveCurrentKpi() {
+        const m = computeKpi();
+        const now = new Date();
+        const stamp = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        state.ledger.unshift({
+          id: 'kpi_' + Date.now(),
+          type: 'kpi',
+          title: `KPI収益計画（目標売上 ${fmtMoney(m.rev)}）`,
+          subtitle: `必要成約 ${Math.ceil(m.deals)}件 / 営業利益率 ${m.marginRate.toFixed(1)}% / ROAS ${m.adBudget > 0 ? Math.round(m.roas) + '%' : '∞'}`,
+          netProfit: m.netProfit,
+          createdAt: stamp,
+          snapshot: { ...state.kpi }
+        });
+        persistState();
+        renderLedger();
+        showToast('KPI計画を経営台帳に保存しました');
+      }
+
+      function saveCurrentQuote() {
+        const q = computeQuote();
+        const now = new Date();
+        const stamp = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        state.ledger.unshift({
+          id: 'quote_' + Date.now(),
+          type: 'quote',
+          title: `御見積書: ${state.quote.client}`,
+          subtitle: `${state.quote.project}（確保粗利率 ${q.marginPct}%）`,
+          total: q.total,
+          createdAt: stamp,
+          snapshot: { ...state.quote }
+        });
+        persistState();
+        renderQuote();
+        renderLedger();
+        showToast(`${state.quote.client} 宛の正式御見積書を発行し、経営台帳へ保存しました`);
+      }
+
+      function exportLedgerCsv() {
+        if (state.ledger.length === 0) {
+          showToast('エクスポートする経営台帳データがありません', 'error');
+          return;
+        }
+        const header = ['種別', 'タイトル', '詳細サマリー', '金額(JPY)', '登録日時'];
+        const rows = state.ledger.map((r) => [
+          r.type === 'quote' ? '御見積書' : 'KPI計画',
+          r.title,
+          r.subtitle,
+          r.type === 'quote' ? r.total : r.netProfit,
+          r.createdAt
+        ]);
+        const csv = '\uFEFF' + [header, ...rows].map((row) =>
+          row.map((cell) => '"' + String(cell ?? '').replace(/"/g, '""') + '"').join(',')
+        ).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `bizprofit_ledger_${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast('経営台帳をCSVファイルでダウンロードしました');
+      }
+
+      // Sync helpers
+      function syncKpiInputsFromState() {
+        const pairs = [
+          ['revenue', 'in-revenue', 'in-revenue-num'],
+          ['price', 'in-price', 'in-price-num'],
+          ['cvr', 'in-cvr', 'in-cvr-num'],
+          ['cpl', 'in-cpl', 'in-cpl-num'],
+          ['cogs', 'in-cogs', 'in-cogs-num'],
+          ['fixed', 'in-fixed', 'in-fixed-num']
+        ];
+        pairs.forEach(([key, rangeId, numId]) => {
+          document.getElementById(rangeId).value = state.kpi[key];
+          document.getElementById(numId).value = state.kpi[key];
+        });
+      }
+
+      function syncQuoteInputsFromState() {
+        document.getElementById('q-client').value = state.quote.client;
+        document.getElementById('q-project').value = state.quote.project;
+        document.getElementById('q-hours').value = state.quote.hours;
+        document.getElementById('q-rate').value = state.quote.rate;
+        document.getElementById('q-cost').value = state.quote.cost;
+        document.getElementById('q-margin').value = state.quote.margin;
+        document.getElementById('q-issuer').value = state.quote.issuer;
+        document.getElementById('q-invoice-no').value = state.quote.invoiceNo;
+      }
+
+      // Mobile sidebar helpers
+      function openMobileSidebar() {
+        document.getElementById('app-sidebar').classList.remove('-translate-x-full');
+        document.getElementById('mobile-backdrop').classList.remove('hidden');
+      }
+      function closeMobileSidebar() {
+        document.getElementById('app-sidebar').classList.add('-translate-x-full');
+        document.getElementById('mobile-backdrop').classList.add('hidden');
+      }
+
+      // =========================================================
+      // 5. Event Listeners Binding
+      // =========================================================
+      function bindEvents() {
+        // Sidebar Navigation
+        document.querySelectorAll('.nav-item').forEach((btn) => {
+          btn.addEventListener('click', () => switchView(btn.getAttribute('data-nav')));
+        });
+        document.getElementById('open-sidebar-btn').addEventListener('click', openMobileSidebar);
+        document.getElementById('close-sidebar-btn').addEventListener('click', closeMobileSidebar);
+        document.getElementById('mobile-backdrop').addEventListener('click', closeMobileSidebar);
+        document.getElementById('sidebar-upgrade-btn').addEventListener('click', () => switchView('pricing'));
+        document.getElementById('header-plan-btn').addEventListener('click', () => switchView('pricing'));
+        document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+
+        // Currency Switcher
+        document.querySelectorAll('.currency-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.currency = btn.getAttribute('data-currency');
+            document.querySelectorAll('.currency-btn').forEach((b) => {
+              const active = b.getAttribute('data-currency') === state.currency;
+              b.className = 'currency-btn px-2.5 py-1 rounded-md text-xs transition-all ' +
+                (active ? 'font-semibold bg-white text-slate-900 shadow-xs' : 'font-medium text-slate-500 hover:text-slate-800');
+            });
+            renderAll();
+            showToast(`表示通貨を ${state.currency} に切り替えました`, 'info');
+          });
+        });
+
+        // KPI Dual Input Binding
+        const kpiPairs = [
+          ['revenue', 'in-revenue', 'in-revenue-num'],
+          ['price', 'in-price', 'in-price-num'],
+          ['cvr', 'in-cvr', 'in-cvr-num'],
+          ['cpl', 'in-cpl', 'in-cpl-num'],
+          ['cogs', 'in-cogs', 'in-cogs-num'],
+          ['fixed', 'in-fixed', 'in-fixed-num']
+        ];
+        kpiPairs.forEach(([key, rangeId, numId]) => {
+          const rEl = document.getElementById(rangeId);
+          const nEl = document.getElementById(numId);
+          rEl.addEventListener('input', () => {
+            state.kpi[key] = Number(rEl.value);
+            nEl.value = rEl.value;
+            renderKpi();
+          });
+          nEl.addEventListener('input', () => {
+            const val = Number(nEl.value);
+            if (!Number.isNaN(val)) {
+              state.kpi[key] = val;
+              rEl.value = Math.min(Number(rEl.max), Math.max(Number(rEl.min), val));
+              renderKpi();
+            }
+          });
+        });
+
+        // Presets & KPI buttons
+        document.querySelectorAll('.preset-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const key = btn.getAttribute('data-preset');
+            if (!PRESETS[key]) return;
+            state.kpi = { ...PRESETS[key] };
+            syncKpiInputsFromState();
+            renderKpi();
+            document.querySelectorAll('.preset-btn').forEach((b) => {
+              const active = b.getAttribute('data-preset') === key;
+              b.className = 'preset-btn px-3 py-1.5 rounded-lg text-xs transition-colors ' +
+                (active ? 'font-semibold bg-slate-900 text-white' : 'font-medium bg-slate-100 text-slate-700 hover:bg-slate-200');
+            });
+            showToast(`「${btn.textContent}」のKPIモデルを適用しました`, 'info');
+          });
+        });
+
+        document.getElementById('kpi-reset-btn').addEventListener('click', () => {
+          state.kpi = { ...PRESETS.standard };
+          syncKpiInputsFromState();
+          renderKpi();
+          showToast('シミュレーション値を初期設定にリセットしました', 'info');
+        });
+        document.getElementById('kpi-save-btn').addEventListener('click', saveCurrentKpi);
+
+        // Quote inputs
+        const quoteMap = [
+          ['client', 'q-client', false],
+          ['project', 'q-project', false],
+          ['hours', 'q-hours', true],
+          ['rate', 'q-rate', true],
+          ['cost', 'q-cost', true],
+          ['margin', 'q-margin', true],
+          ['issuer', 'q-issuer', false],
+          ['invoiceNo', 'q-invoice-no', false]
+        ];
+        quoteMap.forEach(([key, id, isNum]) => {
+          document.getElementById(id).addEventListener('input', (e) => {
+            state.quote[key] = isNum ? Number(e.target.value) : e.target.value;
+            renderQuote();
+          });
+        });
+        document.getElementById('q-issue-btn').addEventListener('click', saveCurrentQuote);
+        document.getElementById('q-print-btn').addEventListener('click', () => {
+          window.print();
+        });
+
+        // LTV & Discount sliders
+        document.getElementById('ltv-acq').addEventListener('input', (e) => { state.ltv.acq = Number(e.target.value); renderLtv(); });
+        document.getElementById('ltv-mrr').addEventListener('input', (e) => { state.ltv.mrr = Number(e.target.value); renderLtv(); });
+        document.getElementById('ltv-ret').addEventListener('input', (e) => { state.ltv.ret = Number(e.target.value); renderLtv(); });
+        document.getElementById('disc-margin').addEventListener('input', (e) => { state.disc.margin = Number(e.target.value); renderDiscount(); });
+        document.getElementById('disc-rate').addEventListener('input', (e) => { state.disc.rate = Number(e.target.value); renderDiscount(); });
+
+        // Ledger filters & actions
+        document.querySelectorAll('.ledger-filter-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.ledgerFilter = btn.getAttribute('data-filter');
+            document.querySelectorAll('.ledger-filter-btn').forEach((b) => {
+              const active = b.getAttribute('data-filter') === state.ledgerFilter;
+              b.className = 'ledger-filter-btn px-3 py-1 rounded-md text-xs ' +
+                (active ? 'font-semibold bg-white text-slate-900 shadow-xs' : 'font-medium text-slate-600 hover:text-slate-900');
+            });
+            renderLedger();
+          });
+        });
+
+        document.getElementById('ledger-search').addEventListener('input', (e) => {
+          state.ledgerSearch = e.target.value;
+          renderLedger();
+        });
+
+        document.getElementById('ledger-copy-btn').addEventListener('click', () => {
+          const m = computeKpi();
+          const q = computeQuote();
+          const latest = state.ledger[0];
+          const report = [
+            '【BizProfit Enterprise 経営サマリーレポート】',
+            `出力日時: ${new Date().toLocaleString('ja-JP')}`,
+            `・目標月間売上: ${fmtMoney(m.rev)} / 想定純利益: ${fmtMoney(m.netProfit)}（利益率 ${m.marginRate.toFixed(1)}%）`,
+            `・必要成約数: ${Math.ceil(m.deals)}件 / 必要商談数: ${Math.ceil(m.leads)}件 / CPA: ${fmtMoney(m.cpa)}`,
+            `・直近見積モデル: ${state.quote.client} 宛 ${fmtMoney(q.total)}（粗利率 ${q.marginPct}%）`,
+            latest ? `・最新台帳レコード: ${latest.title} (${latest.createdAt})` : ''
+          ].filter(Boolean).join('\n');
+          copyText(report);
+        });
+
+        document.getElementById('ledger-csv-btn').addEventListener('click', exportLedgerCsv);
+
+        document.getElementById('ledger-clear-btn').addEventListener('click', () => {
+          if (state.ledger.length === 0) {
+            showToast('削除対象のデータがありません', 'info');
+            return;
+          }
+          openModal({
+            title: '経営台帳の全削除',
+            subtitle: 'この操作は取り消せません',
+            bodyHtml: `<p>保存されている全 <strong>${state.ledger.length}件</strong> の経営台帳レコードを削除しますか？</p>`,
+            actions: [
+              { label: 'キャンセル' },
+              {
+                label: 'すべて削除する',
+                danger: true,
+                onClick: () => {
+                  state.ledger = [];
+                  persistState();
+                  renderLedger();
+                  showToast('経営台帳をすべて削除しました', 'info');
+                }
+              }
+            ]
+          });
+        });
+
+        // Billing cycle toggle
+        document.getElementById('billing-toggle').addEventListener('click', () => {
+          state.annualBilling = !state.annualBilling;
+          const toggle = document.getElementById('billing-toggle');
+          const knob = document.getElementById('billing-knob');
+          toggle.setAttribute('aria-checked', String(state.annualBilling));
+          toggle.classList.toggle('bg-indigo-600', state.annualBilling);
+          toggle.classList.toggle('bg-slate-300', !state.annualBilling);
+          knob.classList.toggle('translate-x-6', state.annualBilling);
+          knob.classList.toggle('translate-x-1', !state.annualBilling);
+          renderPlanStatus();
+        });
+
+        // Plan Selection Buttons
+        document.querySelectorAll('.plan-select-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const target = btn.getAttribute('data-select-plan');
+            if (target === 'STARTER') {
+              state.plan = 'STARTER';
+              persistState();
+              renderPlanStatus();
+              showToast('Starter（無料）プランに切り替えました', 'info');
+              return;
+            }
+            if (target === 'PRO') {
+              openModal({
+                title: 'Business Pro プランへアップグレード',
+                subtitle: state.annualBilling ? '年払い（20% OFF適用）' : '月払いプラン',
+                bodyHtml: `
+                  <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                    <div class="flex justify-between"><span>月額料金（税抜）</span><strong class="font-mono">${fmtMoney(state.annualBilling ? 3980 : 4980)}</strong></div>
+                    <div class="flex justify-between"><span>お支払方法</span><span>法人クレジットカード / 請求書払い</span></div>
+                  </div>
+                  <p>デモ環境のため、下のボタンを押すと即座に <strong>Business Pro</strong> 権限が有効化されます。</p>
+                `,
+                actions: [
+                  { label: 'キャンセル' },
+                  {
+                    label: 'Business Pro を有効化する',
+                    primary: true,
+                    onClick: () => {
+                      state.plan = 'PRO';
+                      persistState();
+                      renderPlanStatus();
+                      showToast('Business Pro プランが有効化されました');
+                    }
+                  }
+                ]
+              });
+              return;
+            }
+            if (target === 'ENTERPRISE') {
+              openModal({
+                title: 'Enterprise 法人導入のご相談',
+                subtitle: '専任コンサルタントがセキュリティ要件・お見積りをご案内します',
+                bodyHtml: `
+                  <div class="space-y-2.5">
+                    <div>
+                      <label class="block text-[11px] font-semibold text-slate-700 mb-1">貴社名</label>
+                      <input id="ent-req-company" type="text" placeholder="例: 株式会社〇〇" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:border-indigo-500" />
+                    </div>
+                    <div>
+                      <label class="block text-[11px] font-semibold text-slate-700 mb-1">法人メールアドレス</label>
+                      <input id="ent-req-email" type="email" placeholder="name@company.co.jp" class="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:border-indigo-500" />
+                    </div>
+                  </div>
+                `,
+                actions: [
+                  { label: '閉じる' },
+                  {
+                    label: '導入相談を送信（デモ体験を有効化）',
+                    primary: true,
+                    onClick: () => {
+                      state.plan = 'ENTERPRISE';
+                      persistState();
+                      renderPlanStatus();
+                      showToast('法人導入のお問い合わせを受け付けました（Enterprise体験を有効化）');
+                    }
+                  }
+                ]
+              });
+            }
+          });
+        });
+
+        // License key verification
+        document.getElementById('license-apply-btn').addEventListener('click', () => {
+          const val = document.getElementById('license-input').value.trim().toUpperCase();
+          if (val === 'PRO-2026-VIP') {
+            state.plan = 'PRO';
+            persistState();
+            renderPlanStatus();
+            showToast('ライセンスキーを認証しました（Business Pro 有効化）');
+          } else if (val === 'ENT-2026-EXEC') {
+            state.plan = 'ENTERPRISE';
+            persistState();
+            renderPlanStatus();
+            showToast('エンタープライズキーを認証しました（Enterprise 有効化）');
+          } else {
+            showToast('無効なライセンスキーです（PRO-2026-VIP または ENT-2026-EXEC をお試しください）', 'error');
+          }
+        });
+      }
+
+      // =========================================================
+      // 6. Initialize
+      // =========================================================
+      window.addEventListener('DOMContentLoaded', () => {
+        loadPersistedState();
+        syncKpiInputsFromState();
+        syncQuoteInputsFromState();
+        bindEvents();
+        renderAll();
+        if (window.lucide) lucide.createIcons();
+      });
+    })();
+  </script>
 </body>
 </html>
